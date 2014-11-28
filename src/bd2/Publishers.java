@@ -18,14 +18,14 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author DanMoCa14z
  */
-public class Jobs extends javax.swing.JFrame {
+public class Publishers extends javax.swing.JFrame {
 
     /**
-     * Creates new form Jobs
+     * Creates new form Publishers
      */
-    public Jobs() {
+    public Publishers() {
         initComponents();
-        loadJobs();
+        loadPublisher();
     }
 
     /**
@@ -69,7 +69,7 @@ public class Jobs extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(104, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         pack();
@@ -79,14 +79,14 @@ public class Jobs extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     
-    public void loadJobs(){
+    public void loadPublisher(){
         try {
             Connection conn = Conexion.GetConnection();
             Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM JOBS");
+            ResultSet rs = st.executeQuery("SELECT * FROM PUBLISHERS");
             
             String[] columns = {
-                "ID","Descripcion","Nivel Minimo", "Nivel Maximo"
+                "ID","Nombre","Ciudad","Estado","País"
             };
             
             DefaultTableModel tm = new DefaultTableModel(null,columns){
@@ -98,7 +98,7 @@ public class Jobs extends javax.swing.JFrame {
             
             while (rs.next()){
                 String[] row = {
-                    rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4)
+                    rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5)
                 };
                 tm.addRow(row);
             }
@@ -122,20 +122,20 @@ public class Jobs extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Jobs.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Publishers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Jobs.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Publishers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Jobs.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Publishers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Jobs.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Publishers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Jobs().setVisible(true);
+                new Publishers().setVisible(true);
             }
         });
     }
