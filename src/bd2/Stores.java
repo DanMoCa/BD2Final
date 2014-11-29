@@ -5,7 +5,7 @@
  */
 package bd2;
 
-import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -122,6 +122,15 @@ public class Stores extends javax.swing.JFrame {
         } catch (SQLException e) {
             Logger.getLogger(this.getName()).log(Level.SEVERE, null, e.getMessage());
             JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+    
+    public void insertStores(){
+        try {
+            PreparedStatement ps;
+            
+            
+        } catch (Exception e) {
         }
     }
     public static void main(String args[]) {
