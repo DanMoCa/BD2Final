@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import oracle.jdbc.driver.OracleConnection;
 
 /**
  *
@@ -81,25 +82,40 @@ public class Authors extends javax.swing.JFrame {
     
     public void loadAuthors(){
         try {
-            Connection conn = Conexion.GetConnection();
+            OracleConnection conn = (OracleConnection) Conexion.GetConnection();
             Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM AUTHORS");
+            ResultSet rs = st.executeQuery("SELECT value(a) FROM autores a");
             
             String[] columns = {
-                "ID","Apellido","Apellido","Telefono","Direccion","Ciudad","Estado","CP","Contrato"
+                "ID Autor","Apellido","Nombre","Telefono","Dirección","Ciudad","Estado","Codigo Postal","Contrato"
             };
             
-            DefaultTableModel tm = new DefaultTableModel(null,columns){
+            //8 columnas
+            DefaultTableModel tm = new DefaultTableModel(null, columns) {
                 @Override
-                public boolean isCellEditable(int rowIndex, int colIndex){
+                public boolean isCellEditable(int rowIndex, int colIndex) {
                     return false;
                 }
             };
-            
-            while (rs.next()){
+
+            while (rs.next()) {
+                oracle.sql.STRUCT eddy = (oracle.sql.STRUCT) rs.getObject(1);
+                Object[] objValues = eddy.getAttributes();
+                
+                /* BigDecimal to String */
+                java.math.BigDecimal contract = (java.math.BigDecimal)objValues[8];
+                String strContract = contract.toString();
+                
+                
+                /* Date to String 
+                java.sql.Timestamp ts = (java.sql.Timestamp) objValues[7];
+                String strTS = ts.toString();
+                */
+                
                 String[] row = {
-                    rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8),rs.getString(9)
+                    (String)objValues[0],(String)objValues[1],(String)objValues[2],(String)objValues[3],(String)objValues[4],(String)objValues[5],(String)objValues[6],(String)objValues[7],strContract
                 };
+                
                 tm.addRow(row);
             }
             jTable1.setModel(tm);

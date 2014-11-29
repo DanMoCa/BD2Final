@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import oracle.jdbc.driver.OracleConnection;
 
 /**
  *
@@ -81,25 +82,40 @@ public class Sales extends javax.swing.JFrame {
     
     public void loadSales(){
         try {
-            Connection conn = Conexion.GetConnection();
+            OracleConnection conn = (OracleConnection) Conexion.GetConnection();
             Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM SALES");
+            ResultSet rs = st.executeQuery("SELECT value(a) FROM ventas a");
             
             String[] columns = {
-                "ID","Num. Orden","Fecha Orden","Cantidad","Terminos de Pago","ID Titulo"
+                "Id Tienda","Numero de Orden","Fecha de Orden","Cantidad","Terminos de Pago","ID Titulo"
             };
             
-            DefaultTableModel tm = new DefaultTableModel(null,columns){
+            
+            DefaultTableModel tm = new DefaultTableModel(null, columns) {
                 @Override
-                public boolean isCellEditable(int rowIndex, int colIndex){
+                public boolean isCellEditable(int rowIndex, int colIndex) {
                     return false;
                 }
             };
-            
-            while (rs.next()){
+
+            while (rs.next()) {
+                oracle.sql.STRUCT eddy = (oracle.sql.STRUCT) rs.getObject(1);
+                Object[] objValues = eddy.getAttributes();
+                
+                /* BigDecimal to String */
+                java.math.BigDecimal cantidad = (java.math.BigDecimal)objValues[3];
+                String strCantidad = cantidad.toString();
+                
+                
+                /* Date to String */
+                java.sql.Timestamp ts = (java.sql.Timestamp) objValues[2];
+                String strTS = ts.toString();
+                
+                
                 String[] row = {
-                    rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6)
+                    (String)objValues[0],(String)objValues[1],strTS,strCantidad,(String)objValues[4],(String)objValues[5]
                 };
+                
                 tm.addRow(row);
             }
             jTable1.setModel(tm);

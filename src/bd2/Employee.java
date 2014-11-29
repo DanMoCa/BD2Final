@@ -5,7 +5,6 @@
  */
 package bd2;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import oracle.jdbc.driver.OracleConnection;
 
 /**
  *
@@ -81,25 +81,39 @@ public class Employee extends javax.swing.JFrame {
     
     public void loadEmplyoee(){
         try {
-            Connection conn = Conexion.GetConnection();
+            OracleConnection conn = (OracleConnection) Conexion.GetConnection();
             Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM EMPLOYEE");
+            ResultSet rs = st.executeQuery("SELECT value(a) FROM empleados a");
             
             String[] columns = {
-                "ID","Nombre","MINIT","Apellido","ID Empleo","Nivel Empleo","ID Publisher","Fecha de empleo"
+                "ID Empleado","Nombre","Minint","Apellido","ID Puesto","Nivel puesto","ID editorial","Fecha contratación"
             };
             
-            DefaultTableModel tm = new DefaultTableModel(null,columns){
+            //8 columnas
+            DefaultTableModel tm = new DefaultTableModel(null, columns) {
                 @Override
-                public boolean isCellEditable(int rowIndex, int colIndex){
+                public boolean isCellEditable(int rowIndex, int colIndex) {
                     return false;
                 }
             };
-            
-            while (rs.next()){
+
+            while (rs.next()) {
+                oracle.sql.STRUCT eddy = (oracle.sql.STRUCT) rs.getObject(1);
+                Object[] objValues = eddy.getAttributes();
+                
+                /* BigDecimal to String */
+                java.math.BigDecimal jobLvl = (java.math.BigDecimal)objValues[5];
+                String strJobLvl = jobLvl.toString();
+                
+                
+                /* Date to String */
+                java.sql.Timestamp ts = (java.sql.Timestamp) objValues[7];
+                String strTS = ts.toString();
+                
                 String[] row = {
-                    rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8)
+                    (String)objValues[0],(String)objValues[1],(String)objValues[2],(String)objValues[3],(String)objValues[4],strJobLvl,(String)objValues[6],strTS
                 };
+                
                 tm.addRow(row);
             }
             jTable1.setModel(tm);
