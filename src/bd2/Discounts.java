@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import oracle.jdbc.driver.OracleConnection;
 
 /**
  *
@@ -81,25 +82,39 @@ public class Discounts extends javax.swing.JFrame {
     
     public void loadDiscounts(){
         try {
-            Connection conn = Conexion.GetConnection();
+            OracleConnection conn = (OracleConnection) Conexion.GetConnection();
             Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM DISCOUNTS");
+            ResultSet rs = st.executeQuery("SELECT value(a) FROM descuentos a");
             
             String[] columns = {
-                "Tipo descuento", "ID Tienda","Cantidad baja","Cantidad alta","Descuento"
+                "Tipo de Descuneto","ID Tiendo","Cantidad Baja","Cantidad Alta","Descuento"
             };
             
-            DefaultTableModel tm = new DefaultTableModel(null,columns){
+            //8 columnas
+            DefaultTableModel tm = new DefaultTableModel(null, columns) {
                 @Override
-                public boolean isCellEditable(int rowIndex, int colIndex){
+                public boolean isCellEditable(int rowIndex, int colIndex) {
                     return false;
                 }
             };
-            
-            while (rs.next()){
+
+            while (rs.next()) {
+                oracle.sql.STRUCT eddy = (oracle.sql.STRUCT) rs.getObject(1);
+                Object[] objValues = eddy.getAttributes();
+                
+                /* BigDecimal to String */
+                java.math.BigDecimal lowQTY = (java.math.BigDecimal)objValues[5];
+                java.math.BigDecimal highQTY = (java.math.BigDecimal)objValues[5];
+                java.math.BigDecimal discount = (java.math.BigDecimal)objValues[5];
+                
+                String strLowQTY = lowQTY.toString();
+                String strHighQTY = highQTY.toString();
+                String strDiscount = discount.toString();
+                
                 String[] row = {
-                    rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5)
+                    (String)objValues[0],(String)objValues[1],strLowQTY,strHighQTY,strDiscount
                 };
+                
                 tm.addRow(row);
             }
             jTable1.setModel(tm);

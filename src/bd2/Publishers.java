@@ -39,6 +39,16 @@ public class Publishers extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jTxtFldID = new javax.swing.JTextField();
+        jTxtFldNombre = new javax.swing.JTextField();
+        jTxtFldCiudad = new javax.swing.JTextField();
+        jTxtFldEstado = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jTxtFldPais = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -53,7 +63,22 @@ public class Publishers extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
+
+        jLabel1.setText("ID Editorial");
+
+        jLabel2.setText("Nombre");
+
+        jLabel3.setText("Ciudad");
+
+        jLabel4.setText("Estado");
+
+        jLabel5.setText("Pais");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -61,7 +86,26 @@ public class Publishers extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jTxtFldNombre, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTxtFldCiudad, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTxtFldEstado, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                            .addComponent(jTxtFldID)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTxtFldPais, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -69,11 +113,40 @@ public class Publishers extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTxtFldID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jTxtFldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jTxtFldCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jTxtFldEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jTxtFldPais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        this.jTxtFldID.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 0));
+        this.jTxtFldNombre.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 1));
+        this.jTxtFldCiudad.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 2));
+        this.jTxtFldEstado.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 3));
+        this.jTxtFldPais.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 4));
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -85,9 +158,10 @@ public class Publishers extends javax.swing.JFrame {
             ResultSet rs = st.executeQuery("SELECT value(a) FROM editoriales a");
             
             String[] columns = {
-                "ID", "Nombre", "Ciudad", "Estado", "País"
+                "ID Editorial","Nombre","Ciudad","Estado","Pais"
             };
-
+            
+            
             DefaultTableModel tm = new DefaultTableModel(null, columns) {
                 @Override
                 public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -97,10 +171,22 @@ public class Publishers extends javax.swing.JFrame {
 
             while (rs.next()) {
                 oracle.sql.STRUCT eddy = (oracle.sql.STRUCT) rs.getObject(1);
-                Object[] eddyValues = eddy.getAttributes();
+                Object[] objValues = eddy.getAttributes();
+                
+                /* BigDecimal to String 
+                java.math.BigDecimal au_ord = (java.math.BigDecimal)objValues[2];
+                java.math.BigDecimal royalTyper = (java.math.BigDecimal)objValues[3]; 
+                
+                String strAuOrd = au_ord.toString();
+                String strRoyalTyper = royalTyper.toString(); */
+                
+                /* Date to String 
+                java.sql.Timestamp ts = (java.sql.Timestamp) objValues[9];
+                String strTS = ts.toString(); */
+                
                 
                 String[] row = {
-                    (String)eddyValues[0],(String)eddyValues[1],(String)eddyValues[2],(String)eddyValues[3],(String)eddyValues[4]
+                    (String)objValues[0],(String)objValues[1],(String)objValues[2],(String)objValues[3],(String)objValues[4]
                 };
                 
                 tm.addRow(row);
@@ -109,7 +195,7 @@ public class Publishers extends javax.swing.JFrame {
         } catch (SQLException e) {
             Logger.getLogger(this.getName()).log(Level.SEVERE, null, e.getMessage());
             JOptionPane.showMessageDialog(this, e.getMessage());
-        }
+        }  
     }
 
     public static void main(String args[]) {
@@ -145,7 +231,17 @@ public class Publishers extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTxtFldCiudad;
+    private javax.swing.JTextField jTxtFldEstado;
+    private javax.swing.JTextField jTxtFldID;
+    private javax.swing.JTextField jTxtFldNombre;
+    private javax.swing.JTextField jTxtFldPais;
     // End of variables declaration//GEN-END:variables
 }

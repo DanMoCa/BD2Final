@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import oracle.jdbc.driver.OracleConnection;
 import oracle.sql.STRUCT;
 
 /**
@@ -81,27 +82,37 @@ public class Jobs extends javax.swing.JFrame {
      */
     
     public void loadJobs(){
-        try {
-            Connection conn = Conexion.GetConnection();
+         try {
+            OracleConnection conn = (OracleConnection) Conexion.GetConnection();
             Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM JOBS");
+            ResultSet rs = st.executeQuery("SELECT value(a) FROM puestos a");
             
             String[] columns = {
-                "ID","Descripcion","Nivel Minimo", "Nivel Maximo"
+                "ID Puesto","Descripcion","Nivel Minimo","Nivel Máximo"
             };
-            
-            DefaultTableModel tm = new DefaultTableModel(null,columns){
+
+            DefaultTableModel tm = new DefaultTableModel(null, columns) {
                 @Override
-                public boolean isCellEditable(int rowIndex, int colIndex){
+                public boolean isCellEditable(int rowIndex, int colIndex) {
                     return false;
                 }
             };
-            
-            while (rs.next()){
+
+            while (rs.next()) {
+                oracle.sql.STRUCT eddy = (oracle.sql.STRUCT) rs.getObject(1);
+                Object[] objValues = eddy.getAttributes();
+                java.math.BigDecimal ID = (java.math.BigDecimal)objValues[0];
+                java.math.BigDecimal minlvl = (java.math.BigDecimal)objValues[2];
+                java.math.BigDecimal maxlvl = (java.math.BigDecimal)objValues[3];
+                String strId = ID.toString();
+                String strMinLv = minlvl.toString();
+                String strMaxLv = maxlvl.toString();
+                
                 
                 String[] row = {
-                    rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4)
+                    strId,(String)objValues[1],strMinLv,strMaxLv
                 };
+                
                 tm.addRow(row);
             }
             jTable1.setModel(tm);

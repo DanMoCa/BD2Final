@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import oracle.jdbc.driver.OracleConnection;
 
 /**
  *
@@ -39,6 +40,14 @@ public class TitleAuthor extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jTxtFldIdAutor = new javax.swing.JTextField();
+        jTxtFldIdTitulo = new javax.swing.JTextField();
+        jTxtFldOrdenAutor = new javax.swing.JTextField();
+        jTxtTipoRegalia = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -53,7 +62,28 @@ public class TitleAuthor extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
+
+        jLabel1.setText("ID Autor");
+
+        jLabel2.setText("ID Titulo");
+
+        jLabel3.setText("Orden Autor");
+
+        jLabel4.setText("Tipo Regalia");
+
+        jTxtFldIdAutor.setPreferredSize(new java.awt.Dimension(100, 20));
+
+        jTxtFldIdTitulo.setPreferredSize(new java.awt.Dimension(100, 20));
+
+        jTxtFldOrdenAutor.setPreferredSize(new java.awt.Dimension(100, 20));
+
+        jTxtTipoRegalia.setPreferredSize(new java.awt.Dimension(100, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -61,7 +91,22 @@ public class TitleAuthor extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel2)
+                                .addComponent(jLabel1)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTxtFldIdAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTxtFldIdTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTxtFldOrdenAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTxtTipoRegalia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -69,11 +114,35 @@ public class TitleAuthor extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTxtFldIdAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jTxtFldIdTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTxtFldOrdenAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jTxtTipoRegalia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        this.jTxtFldIdAutor.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 0));
+        this.jTxtFldIdTitulo.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 1));
+        this.jTxtFldOrdenAutor.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 2));
+        this.jTxtTipoRegalia.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 3));
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -81,32 +150,50 @@ public class TitleAuthor extends javax.swing.JFrame {
     
     public void loadTitleAuthor(){
         try {
-            Connection conn = Conexion.GetConnection();
+            OracleConnection conn = (OracleConnection) Conexion.GetConnection();
             Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM TITLEAUTHOR");
+            ResultSet rs = st.executeQuery("SELECT value(a) FROM titulo_autor a");
             
             String[] columns = {
-                "ID Autor","ID Titulo","Orden Autor","RoyalType"
+                "ID Autor","ID Titulo","Orden Autor","Regalia Tipo"
             };
             
-            DefaultTableModel tm = new DefaultTableModel(null,columns){
+            
+            DefaultTableModel tm = new DefaultTableModel(null, columns) {
                 @Override
-                public boolean isCellEditable(int rowIndex, int colIndex){
+                public boolean isCellEditable(int rowIndex, int colIndex) {
                     return false;
                 }
             };
-            
-            while (rs.next()){
+
+            while (rs.next()) {
+                oracle.sql.STRUCT eddy = (oracle.sql.STRUCT) rs.getObject(1);
+                Object[] objValues = eddy.getAttributes();
+                
+                /* BigDecimal to String */
+                java.math.BigDecimal au_ord = (java.math.BigDecimal)objValues[2];
+                java.math.BigDecimal royalTyper = (java.math.BigDecimal)objValues[3];
+                
+                
+                String strAuOrd = au_ord.toString();
+                String strRoyalTyper = royalTyper.toString();
+                
+                /* Date to String 
+                java.sql.Timestamp ts = (java.sql.Timestamp) objValues[9];
+                String strTS = ts.toString(); */
+                
+                
                 String[] row = {
-                    rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4)
+                    (String)objValues[0],(String)objValues[1], strAuOrd, strRoyalTyper
                 };
+                
                 tm.addRow(row);
             }
             jTable1.setModel(tm);
         } catch (SQLException e) {
             Logger.getLogger(this.getName()).log(Level.SEVERE, null, e.getMessage());
             JOptionPane.showMessageDialog(this, e.getMessage());
-        }
+        }   
     }
     
     public static void main(String args[]) {
@@ -142,7 +229,15 @@ public class TitleAuthor extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTxtFldIdAutor;
+    private javax.swing.JTextField jTxtFldIdTitulo;
+    private javax.swing.JTextField jTxtFldOrdenAutor;
+    private javax.swing.JTextField jTxtTipoRegalia;
     // End of variables declaration//GEN-END:variables
 }
