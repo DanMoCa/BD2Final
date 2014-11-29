@@ -5,7 +5,6 @@
  */
 package bd2;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import oracle.jdbc.driver.OracleConnection;
 
 /**
  *
@@ -78,28 +78,31 @@ public class Publishers extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    
-    public void loadPublisher(){
+    public void loadPublisher() {
         try {
-            Connection conn = Conexion.GetConnection();
+            OracleConnection conn = (OracleConnection) Conexion.GetConnection();
             Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM PUBLISHERS");
+            ResultSet rs = st.executeQuery("SELECT value(a) FROM editoriales a");
             
             String[] columns = {
-                "ID","Nombre","Ciudad","Estado","País"
+                "ID", "Nombre", "Ciudad", "Estado", "País"
             };
-            
-            DefaultTableModel tm = new DefaultTableModel(null,columns){
+
+            DefaultTableModel tm = new DefaultTableModel(null, columns) {
                 @Override
-                public boolean isCellEditable(int rowIndex, int colIndex){
+                public boolean isCellEditable(int rowIndex, int colIndex) {
                     return false;
                 }
             };
-            
-            while (rs.next()){
+
+            while (rs.next()) {
+                oracle.sql.STRUCT eddy = (oracle.sql.STRUCT) rs.getObject(1);
+                Object[] eddyValues = eddy.getAttributes();
+                
                 String[] row = {
-                    rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5)
+                    (String)eddyValues[0],(String)eddyValues[1],(String)eddyValues[2],(String)eddyValues[3],(String)eddyValues[4]
                 };
+                
                 tm.addRow(row);
             }
             jTable1.setModel(tm);
@@ -108,6 +111,7 @@ public class Publishers extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

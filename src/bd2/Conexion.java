@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import oracle.jdbc.driver.OracleConnection;
 
 /**
  *
@@ -47,7 +48,8 @@ public class Conexion {
             String servidor = "jdbc:oracle:thin:@localhost:1521:"+serv;
             
             System.out.println(servidor+usuarioDB+passwordDB+serv);
-            conexion= DriverManager.getConnection(servidor,usuarioDB,passwordDB);
+            conexion= (OracleConnection)DriverManager.getConnection(servidor,usuarioDB,passwordDB);
+            
             
         }
         catch(ClassNotFoundException ex)

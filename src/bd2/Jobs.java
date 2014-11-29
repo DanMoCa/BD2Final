@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import oracle.sql.STRUCT;
 
 /**
  *
@@ -97,6 +98,7 @@ public class Jobs extends javax.swing.JFrame {
             };
             
             while (rs.next()){
+                
                 String[] row = {
                     rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4)
                 };
