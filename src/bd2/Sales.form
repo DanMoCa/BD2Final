@@ -47,7 +47,7 @@
                           <Component id="jTxtFldCantidad" max="32767" attributes="0"/>
                           <Component id="jTxtFldTerminos" max="32767" attributes="0"/>
                           <Component id="jTxtFldIdTitulo" max="32767" attributes="0"/>
-                          <Component id="jDatePickerFechaOrden" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jDatePickerFechaOrden" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>

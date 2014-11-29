@@ -5,14 +5,17 @@
  */
 package bd2;
 
+import corp.EDITORIAL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import oracle.jdbc.driver.OracleConnection;
+import sqlj.runtime.ref.DefaultContext;
 
 /**
  *
@@ -153,45 +156,30 @@ public class Publishers extends javax.swing.JFrame {
      */
     public void loadPublisher() {
         try {
-            OracleConnection conn = (OracleConnection) Conexion.GetConnection();
+            OracleConnection conn = Conexion.GetConnection();
             Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery("SELECT value(a) FROM editoriales a");
+            Map map = (Map) conn.getTypeMap();
+            map.put(EDITORIAL._SQL_NAME, EDITORIAL.class);            
             
-            String[] columns = {
-                "ID Editorial","Nombre","Ciudad","Estado","Pais"
-            };
-            
-            
-            DefaultTableModel tm = new DefaultTableModel(null, columns) {
-                @Override
-                public boolean isCellEditable(int rowIndex, int colIndex) {
-                    return false;
-                }
-            };
-
-            while (rs.next()) {
-                oracle.sql.STRUCT eddy = (oracle.sql.STRUCT) rs.getObject(1);
-                Object[] objValues = eddy.getAttributes();
-                
-                /* BigDecimal to String 
-                java.math.BigDecimal au_ord = (java.math.BigDecimal)objValues[2];
-                java.math.BigDecimal royalTyper = (java.math.BigDecimal)objValues[3]; 
-                
-                String strAuOrd = au_ord.toString();
-                String strRoyalTyper = royalTyper.toString(); */
-                
-                /* Date to String 
-                java.sql.Timestamp ts = (java.sql.Timestamp) objValues[9];
-                String strTS = ts.toString(); */
-                
-                
-                String[] row = {
-                    (String)objValues[0],(String)objValues[1],(String)objValues[2],(String)objValues[3],(String)objValues[4]
-                };
-                
-                tm.addRow(row);
+            DefaultContext dc = new DefaultContext(conn);
+            //            ('1756','Ramona Publishers','Dallas','TX','USA');
+            ResultSet rs = st.executeQuery("SELECT value(e) FROM Editoriales e ORDER BY e.pub_id");
+            while(rs.next()){
+                EDITORIAL p = (EDITORIAL)rs.getObject(1);
+                System.out.println(p.getpubid()+", "+p.getpubname()+", "+p.getcountry()+", "+p.getstate()+", "+p.getcity());
             }
-            jTable1.setModel(tm);
+            System.out.println();
+            EDITORIAL e = new EDITORIAL();
+            e.setConnectionContext(dc);
+            e = e.buscar("1756");
+            System.out.println(e.getpubid()+", "+e.getpubname()+", "+e.getcountry()+", "+e.getstate()+", "+e.getcity());
+            System.out.println();
+            e.borrar();
+            rs = st.executeQuery("SELECT value(e) FROM Editoriales e ORDER BY e.pub_id");
+            while(rs.next()){
+                EDITORIAL p = (EDITORIAL)rs.getObject(1);
+                System.out.println(p.getpubid()+", "+p.getpubname()+", "+p.getcountry()+", "+p.getstate()+", "+p.getcity());
+            }
         } catch (SQLException e) {
             Logger.getLogger(this.getName()).log(Level.SEVERE, null, e.getMessage());
             JOptionPane.showMessageDialog(this, e.getMessage());

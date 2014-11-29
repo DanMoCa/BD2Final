@@ -5,16 +5,22 @@
  */
 package bd2;
 
+import corp.PUESTO;
+import java.math.BigDecimal;
+import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import oracle.jdbc.driver.OracleConnection;
 import oracle.sql.STRUCT;
+import sqlj.runtime.ref.DefaultContext;
 
 /**
  *
@@ -82,42 +88,25 @@ public class Jobs extends javax.swing.JFrame {
      */
     
     public void loadJobs(){
-         try {
-            OracleConnection conn = (OracleConnection) Conexion.GetConnection();
+        try {
+            OracleConnection conn = Conexion.GetConnection();
             Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery("SELECT value(a) FROM puestos a");
-            
-            String[] columns = {
-                "ID Puesto","Descripcion","Nivel Minimo","Nivel Máximo"
-            };
-
-            DefaultTableModel tm = new DefaultTableModel(null, columns) {
-                @Override
-                public boolean isCellEditable(int rowIndex, int colIndex) {
-                    return false;
-                }
-            };
-
-            while (rs.next()) {
-                oracle.sql.STRUCT eddy = (oracle.sql.STRUCT) rs.getObject(1);
-                Object[] objValues = eddy.getAttributes();
-                java.math.BigDecimal ID = (java.math.BigDecimal)objValues[0];
-                java.math.BigDecimal minlvl = (java.math.BigDecimal)objValues[2];
-                java.math.BigDecimal maxlvl = (java.math.BigDecimal)objValues[3];
-                String strId = ID.toString();
-                String strMinLv = minlvl.toString();
-                String strMaxLv = maxlvl.toString();
-                
-                
-                String[] row = {
-                    strId,(String)objValues[1],strMinLv,strMaxLv
-                };
-                
-                tm.addRow(row);
+            Map map = (Map) conn.getTypeMap();
+            map.put(PUESTO._SQL_NAME, PUESTO.class);            
+            PUESTO p1 = new PUESTO(new BigDecimal(24), "Ayudamedios", new BigDecimal(25), new BigDecimal(40));
+            DefaultContext dc = new DefaultContext(conn);
+            p1.setConnectionContext(dc);
+            p1.guardar();
+            ResultSet rs = st.executeQuery("SELECT value(j) FROM Puestos j ORDER BY j.JOB_ID");
+            while(rs.next()){
+                PUESTO p = (PUESTO)rs.getObject(1);
+                System.out.println(p.getConnectionContext());
+                System.out.println("Puesto: " + p.getJobId() + " Desc:" + p.getJobDesc() 
+                        + "\n min:"+p.getMinLvl()+" max:"+p.getMaxLvl()+"\n");
             }
-            jTable1.setModel(tm);
+            
         } catch (SQLException e) {
-            Logger.getLogger(this.getName()).log(Level.SEVERE, null, e.getMessage());
+            Logger.getLogger(this.getName()).log(Level.SEVERE, null, e);
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }

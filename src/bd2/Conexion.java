@@ -18,7 +18,7 @@ import oracle.jdbc.driver.OracleConnection;
  */
 public class Conexion {
     private static String usuarioDB="pubs";
-    private static String passwordDB="123";
+    private static String passwordDB="pubs";
     private static String serv="orcl";
     public static String getUsuarioDB() {
         return usuarioDB;
@@ -38,9 +38,9 @@ public class Conexion {
     
     
     
-    public static Connection GetConnection()
+    public static OracleConnection GetConnection()
     {
-        Connection conexion=null;
+        OracleConnection conexion=null;
       
         try
         {
