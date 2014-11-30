@@ -144,11 +144,18 @@ public class Publishers extends javax.swing.JFrame {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-        this.jTxtFldID.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 0));
-        this.jTxtFldNombre.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 1));
-        this.jTxtFldCiudad.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 2));
-        this.jTxtFldEstado.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 3));
-        this.jTxtFldPais.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 4));
+        EDITORIAL x ;
+        x = (EDITORIAL) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
+        try {
+            this.jTxtFldID.setText(x.getPubId());
+            this.jTxtFldNombre.setText(x.getPubName());
+            this.jTxtFldCiudad.setText(x.getCity());
+            this.jTxtFldEstado.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 3));
+            this.jTxtFldPais.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 4));
+        } catch (SQLException ex) {
+            Logger.getLogger(Publishers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_jTable1MouseClicked
 
     /**
@@ -159,29 +166,52 @@ public class Publishers extends javax.swing.JFrame {
             OracleConnection conn = Conexion.GetConnection();
             Statement st = conn.createStatement();
             Map map = (Map) conn.getTypeMap();
-            map.put(EDITORIAL._SQL_NAME, EDITORIAL.class);            
+            map.put(EDITORIAL._SQL_NAME, EDITORIAL.class);     
+            
+            String[] columns = {
+                "ID Editorial","Nombre","Ciudad","Estado","Pais"
+            };
+            
+            DefaultTableModel tm = new DefaultTableModel(null, columns) {
+                @Override
+                public boolean isCellEditable(int rowIndex, int colIndex) {
+                    return false;
+                }
+            };
             
             DefaultContext dc = new DefaultContext(conn);
             //            ('1756','Ramona Publishers','Dallas','TX','USA');
             ResultSet rs = st.executeQuery("SELECT value(e) FROM Editoriales e ORDER BY e.pub_id");
             while(rs.next()){
                 EDITORIAL p = (EDITORIAL)rs.getObject(1);
-                System.out.println(p.getpubid()+", "+p.getpubname()+", "+p.getcountry()+", "+p.getstate()+", "+p.getcity());
+                //marcame :(
+                Object[] rows = {
+                    p,p.getPubName(),p.getCity(),p.getState(),p.getCountry()
+                };
+                
+                tm.addRow(rows);
+                
             }
+            
+            this.jTable1.setModel(tm);
+            
+            
+            
             System.out.println();
             EDITORIAL e = new EDITORIAL();
             e.setConnectionContext(dc);
             e = e.buscar("1756");
-            System.out.println(e.getpubid()+", "+e.getpubname()+", "+e.getcountry()+", "+e.getstate()+", "+e.getcity());
+            System.out.println(e.getPubId()+", "+e.getPubName()+", "+e.getCountry()+", "+e.getState()+", "+e.getCity());
+            
             System.out.println();
-            e.borrar();
+            //e.borrar();
             rs = st.executeQuery("SELECT value(e) FROM Editoriales e ORDER BY e.pub_id");
             while(rs.next()){
                 EDITORIAL p = (EDITORIAL)rs.getObject(1);
-                System.out.println(p.getpubid()+", "+p.getpubname()+", "+p.getcountry()+", "+p.getstate()+", "+p.getcity());
+                System.out.println(p.getPubId()+", "+p.getPubName()+", "+p.getCountry()+", "+p.getState()+", "+p.getCity());
             }
         } catch (SQLException e) {
-            Logger.getLogger(this.getName()).log(Level.SEVERE, null, e.getMessage());
+            Logger.getLogger(this.getName()).log(Level.SEVERE, null, e);
             JOptionPane.showMessageDialog(this, e.getMessage());
         }  
     }
