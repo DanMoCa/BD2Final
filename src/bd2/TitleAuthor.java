@@ -6,10 +6,9 @@
 package bd2;
 
 import entidades.AUTOR;
-import entidades.PUESTO;
 import entidades.TITULO;
 import entidades.TITULOAUTOR;
-import java.awt.Event;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -19,6 +18,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import oracle.jdbc.driver.OracleConnection;
+import sqlj.runtime.ref.DefaultContext;
 
 /**
  *
@@ -47,16 +47,21 @@ public class TitleAuthor extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        jCBAutor = new javax.swing.JComboBox();
+        jCBTitulo = new javax.swing.JComboBox();
+        jLblAutor = new javax.swing.JLabel();
+        jLbltitulo = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jTxtFldOrdenAutor = new javax.swing.JTextField();
         jTxtTipoRegalia = new javax.swing.JTextField();
-        jCBAutor = new javax.swing.JComboBox();
-        jCBTitulo = new javax.swing.JComboBox();
-        jLblAutor = new javax.swing.JLabel();
-        jLbltitulo = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -76,19 +81,12 @@ public class TitleAuthor extends javax.swing.JFrame {
                 jTable1MouseClicked(evt);
             }
         });
+        jTable1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTable1KeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
-
-        jLabel1.setText("ID Autor");
-
-        jLabel2.setText("ID Titulo");
-
-        jLabel3.setText("Orden Autor");
-
-        jLabel4.setText("Tipo Regalia");
-
-        jTxtFldOrdenAutor.setPreferredSize(new java.awt.Dimension(100, 20));
-
-        jTxtTipoRegalia.setPreferredSize(new java.awt.Dimension(100, 20));
 
         jCBAutor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -102,6 +100,111 @@ public class TitleAuthor extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("ID Autor");
+
+        jLabel2.setText("ID Titulo");
+
+        jLabel3.setText("Orden Autor");
+
+        jLabel4.setText("Tipo Regalia");
+
+        jTxtFldOrdenAutor.setPreferredSize(new java.awt.Dimension(100, 20));
+
+        jTxtTipoRegalia.setPreferredSize(new java.awt.Dimension(100, 20));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel2)
+                        .addComponent(jLabel1)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTxtTipoRegalia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTxtFldOrdenAutor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jCBTitulo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jCBAutor, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLblAutor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLbltitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jCBAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLblAutor, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jCBTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLbltitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTxtFldOrdenAutor, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jTxtTipoRegalia, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(36, Short.MAX_VALUE))
+        );
+
+        jButton1.setText("TEST: Nuevo");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("TEST: Update");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("TEST: Borrar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -109,25 +212,12 @@ public class TitleAuthor extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 713, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel1)))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTxtTipoRegalia, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-                            .addComponent(jTxtFldOrdenAutor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jCBTitulo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jCBAutor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLblAutor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLbltitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 5, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -135,25 +225,11 @@ public class TitleAuthor extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jCBAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLblAutor, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jCBTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLbltitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTxtFldOrdenAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTxtTipoRegalia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
@@ -161,6 +237,64 @@ public class TitleAuthor extends javax.swing.JFrame {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
+        fillFields();
+
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jCBAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBAutorActionPerformed
+        // TODO add your handling code here:
+        try {
+            if (jCBAutor.getSelectedItem() instanceof AUTOR) {
+                AUTOR p = (AUTOR) jCBAutor.getSelectedItem();
+                jLblAutor.setText(p.getAuFname() + " " + p.getAuLname());
+            }
+        } catch (SQLException e) {
+        }
+    }//GEN-LAST:event_jCBAutorActionPerformed
+
+    private void jCBTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBTituloActionPerformed
+        // TODO add your handling code here:
+        try {
+            if (jCBTitulo.getSelectedItem() instanceof TITULO) {
+                TITULO p = (TITULO) jCBTitulo.getSelectedItem();
+                jLbltitulo.setText(p.getTitleName());
+            }
+        } catch (SQLException e) {
+        }
+    }//GEN-LAST:event_jCBTituloActionPerformed
+
+    private void jTable1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable1KeyReleased
+        // TODO add your handling code here:
+        fillFields();
+    }//GEN-LAST:event_jTable1KeyReleased
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        newTituloAutor();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        updateTituloAutor();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        deleteTituloAutor();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    public void clearFiields(){
+        jTxtFldOrdenAutor.setText("");
+        jTxtTipoRegalia.setText("");
+        jCBAutor.removeAllItems();
+        fillComboAutor();
+        jCBTitulo.removeAllItems();
+        fillComboTitulo();
+        jLbltitulo.setText("");
+        jLblAutor.setText("");
+    }
+    
+    public void fillFields(){
         TITULOAUTOR x;
         x = (TITULOAUTOR) jTable1.getValueAt(jTable1.getSelectedRow(), 2);
         AUTOR a = (AUTOR) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
@@ -186,7 +320,7 @@ public class TitleAuthor extends javax.swing.JFrame {
                     break;
                 }
                 if (jCBTitulo.getItemAt(i) instanceof TITULO
-                        && a.getAuId().equals(((TITULO) jCBTitulo.getItemAt(i)).getTitleId())) {
+                        && t.getTitleId().equals(((TITULO) jCBTitulo.getItemAt(i)).getTitleId())) {
                     jCBTitulo.setSelectedIndex(i);
                     break;
                 }
@@ -196,37 +330,11 @@ public class TitleAuthor extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(TitleAuthor.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-    }//GEN-LAST:event_jTable1MouseClicked
-
-    private void jCBAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBAutorActionPerformed
-        // TODO add your handling code here:
-        try {
-            if (jCBAutor.getSelectedItem() instanceof AUTOR) {
-                AUTOR p = (AUTOR) jCBAutor.getSelectedItem();
-                jLblAutor.setText(p.getAuFname() + " " + p.getAuLname());
-            }
-        } catch (Exception e) {
-        }
-    }//GEN-LAST:event_jCBAutorActionPerformed
-
-    private void jCBTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBTituloActionPerformed
-        // TODO add your handling code here:
-        try {
-            if (jCBTitulo.getSelectedItem() instanceof TITULO) {
-                TITULO p = (TITULO) jCBTitulo.getSelectedItem();
-                jLbltitulo.setText(p.getTitleName());
-            }
-        } catch (Exception e) {
-        }
-    }//GEN-LAST:event_jCBTituloActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
+    }
+    
     public void fillComboAutor() {
         try {
-            OracleConnection conn = (OracleConnection) Conexion.GetConnection();
+             OracleConnection conn = (OracleConnection) Conexion.GetConnection();
             Statement st = conn.createStatement();
             Map map = (Map) conn.getTypeMap();
             map.put(AUTOR._SQL_NAME, AUTOR.class);
@@ -250,16 +358,16 @@ public class TitleAuthor extends javax.swing.JFrame {
             Map map = (Map) conn.getTypeMap();
             map.put(TITULO._SQL_NAME, TITULO.class);
 
-            jCBAutor.addItem("Seleccione Titulo");
             ResultSet rs = st.executeQuery("SELECT value(a) FROM titulos a");
-
+            jCBTitulo.addItem("Seleccione Titulo");
             while (rs.next()) {
                 TITULO p = (TITULO) rs.getObject(1);
-
-                jCBAutor.addItem(p);
+                System.out.println(p.getId());
+                jCBTitulo.addItem(p);
             }
             conn.close();
         } catch (SQLException e) {
+            
         }
     }
 
@@ -341,8 +449,96 @@ public class TitleAuthor extends javax.swing.JFrame {
             }
         });
     }
+    
+    public void newTituloAutor(){
+        try {
+            OracleConnection conn = Conexion.GetConnection();
+            Map map = (Map) conn.getTypeMap();
+            map.put(TITULOAUTOR._SQL_NAME, TITULOAUTOR.class);
+            map.put(TITULO._SQL_NAME, TITULO.class);
+            map.put(AUTOR._SQL_NAME, AUTOR.class);
+            DefaultContext dc = new DefaultContext(conn);
 
+            TITULOAUTOR p = new TITULOAUTOR();
+            p.setConnectionContext(dc);
+
+            p.setAuOrd(new BigDecimal(jTxtFldOrdenAutor.getText()));
+            p.setRoyaltyper(new BigDecimal(jTxtTipoRegalia.getText()));
+            
+            AUTOR e = (AUTOR)jCBAutor.getSelectedItem();
+            e.setConnectionContext(dc);
+            p.setRefAuthor(e.getref());
+            
+            TITULO t = (TITULO)jCBTitulo.getSelectedItem();
+            t.setConnectionContext(dc);
+            p.setRefTitle(t.getref());
+            
+            p.guardar();
+            loadTitleAuthor();
+            clearFiields();
+        } catch (SQLException e) {
+            Logger.getLogger(this.getName()).log(Level.SEVERE, null, e);
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+
+    public void updateTituloAutor(){
+        try {
+            OracleConnection conn = Conexion.GetConnection();
+            Map map = (Map) conn.getTypeMap();
+            map.put(TITULOAUTOR._SQL_NAME, TITULOAUTOR.class);
+            map.put(TITULO._SQL_NAME, TITULO.class);
+            map.put(AUTOR._SQL_NAME, AUTOR.class);
+            DefaultContext dc = new DefaultContext(conn);
+
+            TITULOAUTOR p = new TITULOAUTOR();
+            p.setConnectionContext(dc);
+            p = (TITULOAUTOR)jTable1.getValueAt(jTable1.getSelectedRow(), 2);
+
+            p.setAuOrd(new BigDecimal(jTxtFldOrdenAutor.getText()));
+            p.setRoyaltyper(new BigDecimal(jTxtTipoRegalia.getText()));
+            
+            AUTOR e = (AUTOR)jCBAutor.getSelectedItem();
+            e.setConnectionContext(dc);
+            p.setRefAuthor(e.getref());
+            
+            TITULO t = (TITULO)jCBTitulo.getSelectedItem();
+            t.setConnectionContext(dc);
+            p.setRefTitle(t.getref());
+            
+            p.guardar();
+            loadTitleAuthor();
+            clearFiields();
+        } catch (SQLException e) {
+            Logger.getLogger(this.getName()).log(Level.SEVERE, null, e);
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+    
+    public void deleteTituloAutor(){
+        try {
+            OracleConnection conn = Conexion.GetConnection();
+            Map map = (Map) conn.getTypeMap();
+            map.put(TITULOAUTOR._SQL_NAME, TITULOAUTOR.class);
+            DefaultContext dc = new DefaultContext(conn);
+
+            TITULOAUTOR p = new TITULOAUTOR();
+            p.setConnectionContext(dc);
+            p = (TITULOAUTOR)jTable1.getValueAt(jTable1.getSelectedRow(), 2);
+            
+            p.borrar();
+            loadTitleAuthor();
+            clearFiields();
+        } catch (SQLException e) {
+            Logger.getLogger(this.getName()).log(Level.SEVERE, null, e);
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JComboBox jCBAutor;
     private javax.swing.JComboBox jCBTitulo;
     private javax.swing.JLabel jLabel1;
@@ -351,6 +547,8 @@ public class TitleAuthor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLblAutor;
     private javax.swing.JLabel jLbltitulo;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTxtFldOrdenAutor;

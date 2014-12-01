@@ -74,6 +74,11 @@ public class Publishers extends javax.swing.JFrame {
                 jTable1MouseClicked(evt);
             }
         });
+        jTable1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTable1KeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jLabel1.setText("ID Editorial");
@@ -193,18 +198,7 @@ public class Publishers extends javax.swing.JFrame {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here: 
-        EDITORIAL x;
-        x = (EDITORIAL) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
-        try {
-            this.jTxtFldID.setText(((x.getPubId()) != null) ? x.getPubId() + "" : "");
-            this.jTxtFldNombre.setText(((x.getPubName()) != null) ? x.getPubName() + "" : "");
-            this.jTxtFldCiudad.setText(((x.getCity()) != null) ? x.getCity() + "" : "");
-            this.jTxtFldEstado.setText(((x.getState()) != null) ? x.getState() + "" : "");
-            this.jTxtFldPais.setText(((x.getCountry()) != null) ? x.getCountry() + "" : "");
-        } catch (SQLException ex) {
-            Logger.getLogger(Publishers.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        fillFields();
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -222,20 +216,38 @@ public class Publishers extends javax.swing.JFrame {
         deletePublisher();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jTable1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable1KeyReleased
+        // TODO add your handling code here:
+        fillFields();
+    }//GEN-LAST:event_jTable1KeyReleased
+
     /**
      * @param args the command line arguments
      */
-    
-    public void clearFields(){
+    public void fillFields() {
+        EDITORIAL x;
+        x = (EDITORIAL) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
+        try {
+            this.jTxtFldID.setText(((x.getPubId()) != null) ? x.getPubId() + "" : "");
+            this.jTxtFldNombre.setText(((x.getPubName()) != null) ? x.getPubName() + "" : "");
+            this.jTxtFldCiudad.setText(((x.getCity()) != null) ? x.getCity() + "" : "");
+            this.jTxtFldEstado.setText(((x.getState()) != null) ? x.getState() + "" : "");
+            this.jTxtFldPais.setText(((x.getCountry()) != null) ? x.getCountry() + "" : "");
+        } catch (SQLException ex) {
+            Logger.getLogger(Publishers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void clearFields() {
         this.jTxtFldCiudad.setText("");
         this.jTxtFldEstado.setText("");
         this.jTxtFldID.setText("");
         this.jTxtFldNombre.setText("");
         this.jTxtFldPais.setText("");
-        
+
         loadPublisher();
     }
-    
+
     public void loadPublisher() {
         try {
             OracleConnection conn = Conexion.GetConnection();
@@ -264,22 +276,9 @@ public class Publishers extends javax.swing.JFrame {
                 };
 
                 tm.addRow(rows);
-
             }
 
             this.jTable1.setModel(tm);
-
-//            
-//            System.out.println();
-//            EDITORIAL e = new EDITORIAL();
-//            e.setConnectionContext(dc);
-//            e = e.buscar("1756");
-//            
-//            System.out.println(e.getPubId()+", "+e.getPubName()+", "+e.getCountry()+", "+e.getState()+", "+e.getCity());
-//            
-//            System.out.println();
-//            //e.borrar();
-//            rs = st.executeQuery("SELECT value(e) FROM Editoriales e ORDER BY e.pub_id");
             while (rs.next()) {
                 EDITORIAL p = (EDITORIAL) rs.getObject(1);
                 System.out.println(p.getPubId() + ", " + p.getPubName() + ", " + p.getCountry() + ", " + p.getState() + ", " + p.getCity());
@@ -338,7 +337,7 @@ public class Publishers extends javax.swing.JFrame {
             e.setCountry(jTxtFldPais.getText());
 
             System.out.println(e.getId());
-            
+
             e.guardar();
             loadPublisher();
             clearFields();
@@ -347,8 +346,8 @@ public class Publishers extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
-    
-    public void deletePublisher(){
+
+    public void deletePublisher() {
         try {
             OracleConnection conn = Conexion.GetConnection();
             Map map = (Map) conn.getTypeMap();
@@ -356,11 +355,11 @@ public class Publishers extends javax.swing.JFrame {
             DefaultContext dc = new DefaultContext(conn);
 
             EDITORIAL e = new EDITORIAL();
-            
+
             e.setConnectionContext(dc);
-            
+
             e = (EDITORIAL) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
-            
+
             e.borrar();
             loadPublisher();
             clearFields();

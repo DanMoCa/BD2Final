@@ -23,7 +23,7 @@ public class TITULO implements ORAData, ORADataFactory {
     @Override
     public String toString() {
         try {
-            return getTitleId();
+            return getTitleId()+"";
         } catch (SQLException ex) {
             Logger.getLogger(TITULO.class.getName()).log(Level.SEVERE, null, ex);
         }
