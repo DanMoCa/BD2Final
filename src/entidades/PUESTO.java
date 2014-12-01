@@ -23,7 +23,7 @@ public class PUESTO implements ORAData, ORADataFactory {
     @Override
     public String toString() {
         try {
-            return getJobId()+"";
+            return getJobId() + "";
         } catch (SQLException ex) {
             Logger.getLogger(PUESTO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -106,8 +106,8 @@ public class PUESTO implements ORAData, ORADataFactory {
     ;
   protected MutableStruct _struct;
 
-    protected static int[] _sqlType = {2, 12, 2, 2};
-    protected static ORADataFactory[] _factory = new ORADataFactory[4];
+    protected static int[] _sqlType = {2, 2, 12, 2, 2};
+    protected static ORADataFactory[] _factory = new ORADataFactory[5];
     protected static final PUESTO _PUESTOFactory = new PUESTO();
 
     public static ORADataFactory getORADataFactory() {
@@ -117,7 +117,7 @@ public class PUESTO implements ORAData, ORADataFactory {
 
     protected void _init_struct(boolean init) {
         if (init) {
-            _struct = new MutableStruct(new Object[4], _sqlType, _factory);
+            _struct = new MutableStruct(new Object[5], _sqlType, _factory);
         }
     }
 
@@ -138,6 +138,7 @@ public class PUESTO implements ORAData, ORADataFactory {
 
     public PUESTO(java.math.BigDecimal jobId, String jobDesc, java.math.BigDecimal minLvl, java.math.BigDecimal maxLvl) throws SQLException {
         _init_struct(true);
+        setId(null);
         setJobId(jobId);
         setJobDesc(jobDesc);
         setMinLvl(minLvl);
@@ -190,43 +191,51 @@ public class PUESTO implements ORAData, ORADataFactory {
     }
     /* accessor methods */
 
-    public java.math.BigDecimal getJobId() throws SQLException {
+    public java.math.BigDecimal getId() throws SQLException {
         return (java.math.BigDecimal) _struct.getAttribute(0);
     }
 
+    public void setId(java.math.BigDecimal id) throws SQLException {
+        _struct.setAttribute(0, id);
+    }
+
+    public java.math.BigDecimal getJobId() throws SQLException {
+        return (java.math.BigDecimal) _struct.getAttribute(1);
+    }
+
     public void setJobId(java.math.BigDecimal jobId) throws SQLException {
-        _struct.setAttribute(0, jobId);
+        _struct.setAttribute(1, jobId);
     }
 
     public String getJobDesc() throws SQLException {
-        return (String) _struct.getAttribute(1);
+        return (String) _struct.getAttribute(2);
     }
 
     public void setJobDesc(String jobDesc) throws SQLException {
-        _struct.setAttribute(1, jobDesc);
+        _struct.setAttribute(2, jobDesc);
     }
 
     public java.math.BigDecimal getMinLvl() throws SQLException {
-        return (java.math.BigDecimal) _struct.getAttribute(2);
-    }
-
-    public void setMinLvl(java.math.BigDecimal minLvl) throws SQLException {
-        _struct.setAttribute(2, minLvl);
-    }
-
-    public java.math.BigDecimal getMaxLvl() throws SQLException {
         return (java.math.BigDecimal) _struct.getAttribute(3);
     }
 
+    public void setMinLvl(java.math.BigDecimal minLvl) throws SQLException {
+        _struct.setAttribute(3, minLvl);
+    }
+
+    public java.math.BigDecimal getMaxLvl() throws SQLException {
+        return (java.math.BigDecimal) _struct.getAttribute(4);
+    }
+
     public void setMaxLvl(java.math.BigDecimal maxLvl) throws SQLException {
-        _struct.setAttribute(3, maxLvl);
+        _struct.setAttribute(4, maxLvl);
     }
 
     public PUESTO borrar()
             throws java.sql.SQLException {
         try {
             PUESTO __jPt_temp = this;
-            /*@lineinfo:generated-code*//*@lineinfo:150^5*/
+            /*@lineinfo:generated-code*//*@lineinfo:158^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] { BEGIN
@@ -266,7 +275,7 @@ public class PUESTO implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-            /*@lineinfo:user-code*//*@lineinfo:154^5*/
+            /*@lineinfo:user-code*//*@lineinfo:162^5*/
             return __jPt_temp;
         } catch (java.sql.SQLException _err) {
             try {
@@ -276,7 +285,7 @@ public class PUESTO implements ORAData, ORADataFactory {
                     throw _err;
                 }
                 PUESTO __jPt_temp = this;
-                /*@lineinfo:generated-code*//*@lineinfo:162^5*/
+                /*@lineinfo:generated-code*//*@lineinfo:170^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] { BEGIN
@@ -316,7 +325,7 @@ public class PUESTO implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-                /*@lineinfo:user-code*//*@lineinfo:166^5*/
+                /*@lineinfo:user-code*//*@lineinfo:174^5*/
                 return __jPt_temp;
             } catch (java.sql.SQLException _err2) {
                 try {
@@ -333,7 +342,7 @@ public class PUESTO implements ORAData, ORADataFactory {
             throws java.sql.SQLException {
         PUESTO __jPt_result = null;
         try {
-            /*@lineinfo:generated-code*//*@lineinfo:181^5*/
+            /*@lineinfo:generated-code*//*@lineinfo:189^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] __jPt_result = { VALUES(PUBS.PUESTO.BUSCAR(
@@ -367,7 +376,7 @@ public class PUESTO implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-            /*@lineinfo:user-code*//*@lineinfo:182^14*/
+            /*@lineinfo:user-code*//*@lineinfo:190^14*/
         } catch (java.sql.SQLException _err) {
             try {
                 getConnectionContext().getExecutionContext().close();
@@ -375,7 +384,7 @@ public class PUESTO implements ORAData, ORADataFactory {
                 if (__dataSource == null) {
                     throw _err;
                 }
-                /*@lineinfo:generated-code*//*@lineinfo:188^5*/
+                /*@lineinfo:generated-code*//*@lineinfo:196^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] __jPt_result = { VALUES(PUBS.PUESTO.BUSCAR(
@@ -409,7 +418,7 @@ public class PUESTO implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-                /*@lineinfo:user-code*//*@lineinfo:189^14*/
+                /*@lineinfo:user-code*//*@lineinfo:197^14*/
             } catch (java.sql.SQLException _err2) {
                 try {
                     getConnectionContext().getExecutionContext().close();
@@ -426,7 +435,7 @@ public class PUESTO implements ORAData, ORADataFactory {
         PUESTO __jPt_temp = (PUESTO) this;
         PUESTORef __jPt_result;
         try {
-            /*@lineinfo:generated-code*//*@lineinfo:204^5*/
+            /*@lineinfo:generated-code*//*@lineinfo:212^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] { BEGIN
@@ -466,7 +475,7 @@ public class PUESTO implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-            /*@lineinfo:user-code*//*@lineinfo:208^5*/
+            /*@lineinfo:user-code*//*@lineinfo:216^5*/
         } catch (java.sql.SQLException _err) {
             try {
                 getConnectionContext().getExecutionContext().close();
@@ -474,7 +483,7 @@ public class PUESTO implements ORAData, ORADataFactory {
                 if (__dataSource == null) {
                     throw _err;
                 }
-                /*@lineinfo:generated-code*//*@lineinfo:214^5*/
+                /*@lineinfo:generated-code*//*@lineinfo:222^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] { BEGIN
@@ -514,7 +523,7 @@ public class PUESTO implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-                /*@lineinfo:user-code*//*@lineinfo:218^5*/
+                /*@lineinfo:user-code*//*@lineinfo:226^5*/
             } catch (java.sql.SQLException _err2) {
                 try {
                     getConnectionContext().getExecutionContext().close();
@@ -530,7 +539,7 @@ public class PUESTO implements ORAData, ORADataFactory {
             throws java.sql.SQLException {
         try {
             PUESTO __jPt_temp = this;
-            /*@lineinfo:generated-code*//*@lineinfo:232^5*/
+            /*@lineinfo:generated-code*//*@lineinfo:240^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] { BEGIN
@@ -570,7 +579,7 @@ public class PUESTO implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-            /*@lineinfo:user-code*//*@lineinfo:236^5*/
+            /*@lineinfo:user-code*//*@lineinfo:244^5*/
             return __jPt_temp;
         } catch (java.sql.SQLException _err) {
             try {
@@ -580,7 +589,7 @@ public class PUESTO implements ORAData, ORADataFactory {
                     throw _err;
                 }
                 PUESTO __jPt_temp = this;
-                /*@lineinfo:generated-code*//*@lineinfo:244^5*/
+                /*@lineinfo:generated-code*//*@lineinfo:252^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] { BEGIN
@@ -620,7 +629,7 @@ public class PUESTO implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-                /*@lineinfo:user-code*//*@lineinfo:248^5*/
+                /*@lineinfo:user-code*//*@lineinfo:256^5*/
                 return __jPt_temp;
             } catch (java.sql.SQLException _err2) {
                 try {
@@ -642,7 +651,7 @@ public class PUESTO implements ORAData, ORADataFactory {
         PUESTO __jPt_temp = (PUESTO) this;
         PUESTO __jPt_result;
         try {
-            /*@lineinfo:generated-code*//*@lineinfo:268^5*/
+            /*@lineinfo:generated-code*//*@lineinfo:276^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] { BEGIN
@@ -685,7 +694,7 @@ public class PUESTO implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-            /*@lineinfo:user-code*//*@lineinfo:276^5*/
+            /*@lineinfo:user-code*//*@lineinfo:284^5*/
             __jPt_out[0] = __jPt_temp;
         } catch (java.sql.SQLException _err) {
             try {
@@ -694,7 +703,7 @@ public class PUESTO implements ORAData, ORADataFactory {
                 if (__dataSource == null) {
                     throw _err;
                 }
-                /*@lineinfo:generated-code*//*@lineinfo:283^5*/
+                /*@lineinfo:generated-code*//*@lineinfo:291^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] { BEGIN
@@ -737,7 +746,7 @@ public class PUESTO implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-                /*@lineinfo:user-code*//*@lineinfo:291^5*/
+                /*@lineinfo:user-code*//*@lineinfo:299^5*/
                 __jPt_out[0] = __jPt_temp;
             } catch (java.sql.SQLException _err2) {
                 try {

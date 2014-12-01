@@ -23,13 +23,13 @@ public class ESQ_REGALIA implements ORAData, ORADataFactory {
     @Override
     public String toString() {
         try {
-            return getHirange()+"";
+            return getRefTitle().getValue().getTitleId();
         } catch (SQLException ex) {
             Logger.getLogger(ESQ_REGALIA.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-
+    
     /* connection management */
     protected Connection __onn = null;
     protected javax.sql.DataSource __dataSource = null;
@@ -106,11 +106,11 @@ public class ESQ_REGALIA implements ORAData, ORADataFactory {
     ;
   protected MutableStruct _struct;
 
-    protected static int[] _sqlType = {2006, 2, 2, 2};
-    protected static ORADataFactory[] _factory = new ORADataFactory[4];
+    protected static int[] _sqlType = {2, 2006, 2, 2, 2};
+    protected static ORADataFactory[] _factory = new ORADataFactory[5];
 
     static {
-        _factory[0] = TITULORef.getORADataFactory();
+        _factory[1] = TITULORef.getORADataFactory();
     }
     protected static final ESQ_REGALIA _ESQ_REGALIAFactory = new ESQ_REGALIA();
 
@@ -121,7 +121,7 @@ public class ESQ_REGALIA implements ORAData, ORADataFactory {
 
     protected void _init_struct(boolean init) {
         if (init) {
-            _struct = new MutableStruct(new Object[4], _sqlType, _factory);
+            _struct = new MutableStruct(new Object[5], _sqlType, _factory);
         }
     }
 
@@ -142,6 +142,7 @@ public class ESQ_REGALIA implements ORAData, ORADataFactory {
 
     public ESQ_REGALIA(TITULORef refTitle, java.math.BigDecimal lorange, java.math.BigDecimal hirange, java.math.BigDecimal royalty) throws SQLException {
         _init_struct(true);
+        setId(null);
         setRefTitle(refTitle);
         setLorange(lorange);
         setHirange(hirange);
@@ -194,43 +195,51 @@ public class ESQ_REGALIA implements ORAData, ORADataFactory {
     }
     /* accessor methods */
 
+    public java.math.BigDecimal getId() throws SQLException {
+        return (java.math.BigDecimal) _struct.getAttribute(0);
+    }
+
+    public void setId(java.math.BigDecimal id) throws SQLException {
+        _struct.setAttribute(0, id);
+    }
+
     public TITULORef getRefTitle() throws SQLException {
-        return (TITULORef) _struct.getAttribute(0);
+        return (TITULORef) _struct.getAttribute(1);
     }
 
     public void setRefTitle(TITULORef refTitle) throws SQLException {
-        _struct.setAttribute(0, refTitle);
+        _struct.setAttribute(1, refTitle);
     }
 
     public java.math.BigDecimal getLorange() throws SQLException {
-        return (java.math.BigDecimal) _struct.getAttribute(1);
-    }
-
-    public void setLorange(java.math.BigDecimal lorange) throws SQLException {
-        _struct.setAttribute(1, lorange);
-    }
-
-    public java.math.BigDecimal getHirange() throws SQLException {
         return (java.math.BigDecimal) _struct.getAttribute(2);
     }
 
-    public void setHirange(java.math.BigDecimal hirange) throws SQLException {
-        _struct.setAttribute(2, hirange);
+    public void setLorange(java.math.BigDecimal lorange) throws SQLException {
+        _struct.setAttribute(2, lorange);
     }
 
-    public java.math.BigDecimal getRoyalty() throws SQLException {
+    public java.math.BigDecimal getHirange() throws SQLException {
         return (java.math.BigDecimal) _struct.getAttribute(3);
     }
 
+    public void setHirange(java.math.BigDecimal hirange) throws SQLException {
+        _struct.setAttribute(3, hirange);
+    }
+
+    public java.math.BigDecimal getRoyalty() throws SQLException {
+        return (java.math.BigDecimal) _struct.getAttribute(4);
+    }
+
     public void setRoyalty(java.math.BigDecimal royalty) throws SQLException {
-        _struct.setAttribute(3, royalty);
+        _struct.setAttribute(4, royalty);
     }
 
     public ESQ_REGALIA borrar()
             throws java.sql.SQLException {
         try {
             ESQ_REGALIA __jPt_temp = this;
-            /*@lineinfo:generated-code*//*@lineinfo:154^5*/
+            /*@lineinfo:generated-code*//*@lineinfo:162^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] { BEGIN
@@ -270,7 +279,7 @@ public class ESQ_REGALIA implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-            /*@lineinfo:user-code*//*@lineinfo:158^5*/
+            /*@lineinfo:user-code*//*@lineinfo:166^5*/
             return __jPt_temp;
         } catch (java.sql.SQLException _err) {
             try {
@@ -280,7 +289,7 @@ public class ESQ_REGALIA implements ORAData, ORADataFactory {
                     throw _err;
                 }
                 ESQ_REGALIA __jPt_temp = this;
-                /*@lineinfo:generated-code*//*@lineinfo:166^5*/
+                /*@lineinfo:generated-code*//*@lineinfo:174^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] { BEGIN
@@ -320,7 +329,7 @@ public class ESQ_REGALIA implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-                /*@lineinfo:user-code*//*@lineinfo:170^5*/
+                /*@lineinfo:user-code*//*@lineinfo:178^5*/
                 return __jPt_temp;
             } catch (java.sql.SQLException _err2) {
                 try {
@@ -337,7 +346,7 @@ public class ESQ_REGALIA implements ORAData, ORADataFactory {
             throws java.sql.SQLException {
         ESQ_REGALIA __jPt_result = null;
         try {
-            /*@lineinfo:generated-code*//*@lineinfo:185^5*/
+            /*@lineinfo:generated-code*//*@lineinfo:193^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] __jPt_result = { VALUES(PUBS.ESQ_REGALIA.BUSCAR(
@@ -371,7 +380,7 @@ public class ESQ_REGALIA implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-            /*@lineinfo:user-code*//*@lineinfo:186^14*/
+            /*@lineinfo:user-code*//*@lineinfo:194^14*/
         } catch (java.sql.SQLException _err) {
             try {
                 getConnectionContext().getExecutionContext().close();
@@ -379,7 +388,7 @@ public class ESQ_REGALIA implements ORAData, ORADataFactory {
                 if (__dataSource == null) {
                     throw _err;
                 }
-                /*@lineinfo:generated-code*//*@lineinfo:192^5*/
+                /*@lineinfo:generated-code*//*@lineinfo:200^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] __jPt_result = { VALUES(PUBS.ESQ_REGALIA.BUSCAR(
@@ -413,7 +422,7 @@ public class ESQ_REGALIA implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-                /*@lineinfo:user-code*//*@lineinfo:193^14*/
+                /*@lineinfo:user-code*//*@lineinfo:201^14*/
             } catch (java.sql.SQLException _err2) {
                 try {
                     getConnectionContext().getExecutionContext().close();
@@ -435,7 +444,7 @@ public class ESQ_REGALIA implements ORAData, ORADataFactory {
         ESQ_REGALIA __jPt_temp = (ESQ_REGALIA) this;
         ESQ_REGALIA __jPt_result;
         try {
-            /*@lineinfo:generated-code*//*@lineinfo:213^5*/
+            /*@lineinfo:generated-code*//*@lineinfo:221^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] { BEGIN
@@ -482,7 +491,7 @@ public class ESQ_REGALIA implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-            /*@lineinfo:user-code*//*@lineinfo:221^5*/
+            /*@lineinfo:user-code*//*@lineinfo:229^5*/
             __jPt_out[0] = __jPt_temp;
         } catch (java.sql.SQLException _err) {
             try {
@@ -491,7 +500,7 @@ public class ESQ_REGALIA implements ORAData, ORADataFactory {
                 if (__dataSource == null) {
                     throw _err;
                 }
-                /*@lineinfo:generated-code*//*@lineinfo:228^5*/
+                /*@lineinfo:generated-code*//*@lineinfo:236^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] { BEGIN
@@ -538,7 +547,7 @@ public class ESQ_REGALIA implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-                /*@lineinfo:user-code*//*@lineinfo:236^5*/
+                /*@lineinfo:user-code*//*@lineinfo:244^5*/
                 __jPt_out[0] = __jPt_temp;
             } catch (java.sql.SQLException _err2) {
                 try {
@@ -556,7 +565,7 @@ public class ESQ_REGALIA implements ORAData, ORADataFactory {
         ESQ_REGALIA __jPt_temp = (ESQ_REGALIA) this;
         ESQ_REGALIARef __jPt_result;
         try {
-            /*@lineinfo:generated-code*//*@lineinfo:252^5*/
+            /*@lineinfo:generated-code*//*@lineinfo:260^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] { BEGIN
@@ -596,7 +605,7 @@ public class ESQ_REGALIA implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-            /*@lineinfo:user-code*//*@lineinfo:256^5*/
+            /*@lineinfo:user-code*//*@lineinfo:264^5*/
         } catch (java.sql.SQLException _err) {
             try {
                 getConnectionContext().getExecutionContext().close();
@@ -604,7 +613,7 @@ public class ESQ_REGALIA implements ORAData, ORADataFactory {
                 if (__dataSource == null) {
                     throw _err;
                 }
-                /*@lineinfo:generated-code*//*@lineinfo:262^5*/
+                /*@lineinfo:generated-code*//*@lineinfo:270^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] { BEGIN
@@ -644,7 +653,7 @@ public class ESQ_REGALIA implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-                /*@lineinfo:user-code*//*@lineinfo:266^5*/
+                /*@lineinfo:user-code*//*@lineinfo:274^5*/
             } catch (java.sql.SQLException _err2) {
                 try {
                     getConnectionContext().getExecutionContext().close();
@@ -660,7 +669,7 @@ public class ESQ_REGALIA implements ORAData, ORADataFactory {
             throws java.sql.SQLException {
         try {
             ESQ_REGALIA __jPt_temp = this;
-            /*@lineinfo:generated-code*//*@lineinfo:280^5*/
+            /*@lineinfo:generated-code*//*@lineinfo:288^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] { BEGIN
@@ -700,7 +709,7 @@ public class ESQ_REGALIA implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-            /*@lineinfo:user-code*//*@lineinfo:284^5*/
+            /*@lineinfo:user-code*//*@lineinfo:292^5*/
             return __jPt_temp;
         } catch (java.sql.SQLException _err) {
             try {
@@ -710,7 +719,7 @@ public class ESQ_REGALIA implements ORAData, ORADataFactory {
                     throw _err;
                 }
                 ESQ_REGALIA __jPt_temp = this;
-                /*@lineinfo:generated-code*//*@lineinfo:292^5*/
+                /*@lineinfo:generated-code*//*@lineinfo:300^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] { BEGIN
@@ -750,7 +759,7 @@ public class ESQ_REGALIA implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-                /*@lineinfo:user-code*//*@lineinfo:296^5*/
+                /*@lineinfo:user-code*//*@lineinfo:304^5*/
                 return __jPt_temp;
             } catch (java.sql.SQLException _err2) {
                 try {

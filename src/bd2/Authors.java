@@ -30,6 +30,7 @@ public class Authors extends javax.swing.JFrame {
     public Authors() {
         initComponents();
         loadAuthors();
+
     }
 
     /**
@@ -56,12 +57,12 @@ public class Authors extends javax.swing.JFrame {
         jTxtFldDireccion = new javax.swing.JTextField();
         jTxtFldCodigoPostal = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jTxtFldContrato = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jTxtFldCiudad = new javax.swing.JTextField();
         jTxtFldEstado = new javax.swing.JTextField();
+        jCkBxContrato = new javax.swing.JCheckBox();
 
         jLabel6.setText("jLabel6");
 
@@ -115,9 +116,6 @@ public class Authors extends javax.swing.JFrame {
 
         jLabel7.setText("Ciudad");
 
-        jTxtFldContrato.setPreferredSize(new java.awt.Dimension(150, 22));
-        jTxtFldContrato.setRequestFocusEnabled(false);
-
         jLabel8.setText("Estado");
 
         jLabel9.setText("Codigo Postal");
@@ -164,7 +162,7 @@ public class Authors extends javax.swing.JFrame {
                     .addComponent(jTxtFldCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTxtFldEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTxtFldCodigoPostal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTxtFldContrato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jCkBxContrato))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -209,7 +207,7 @@ public class Authors extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
-                            .addComponent(jTxtFldContrato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jCkBxContrato))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -229,7 +227,8 @@ public class Authors extends javax.swing.JFrame {
             this.jTxtFldCiudad.setText(((x.getCity()) != null) ? x.getCity() + "" : "");
             this.jTxtFldEstado.setText(((x.getState()) != null) ? x.getState() + "" : "");
             this.jTxtFldCodigoPostal.setText(((x.getZip()) != null) ? x.getZip() + "" : "");
-            this.jTxtFldContrato.setText(((x.getContract()) != null) ? x.getContract() + "" : "");
+            this.jCkBxContrato.setSelected(x.getContract().equals(new BigDecimal(1)));
+
         } catch (SQLException ex) {
             Logger.getLogger(Authors.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -239,6 +238,29 @@ public class Authors extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    public void newAuthor() {
+        try {
+            OracleConnection conn = Conexion.GetConnection();
+            Map map = (Map) conn.getTypeMap();
+            map.put(AUTOR._SQL_NAME, AUTOR.class);
+            DefaultContext dc = new DefaultContext(conn);
+
+            AUTOR e = new AUTOR();
+            e.setConnectionContext(dc);
+            
+            e.setAuId(jTxtfldIdAutor.getText());
+            e.setAuLname(jTxtFldApellido.getText());
+            e.setAuFname(jTxtFldNombre.getText());
+            e.setPhone(jTxtFldTelefono.getText());
+            e.setAddress(jTxtFldDireccion.getText());
+            e.setCity(jTxtFldCiudad.getText());
+            e.setState(jTxtFldEstado.getText());
+            e.setZip(jTxtFldCodigoPostal.getText());
+            e.setContract(jCkBxContrato.isSelected() ? new BigDecimal(1) : new BigDecimal(0));
+        } catch (SQLException e) {
+        }
+    }
+
     public void loadAuthors() {
         try {
             OracleConnection conn = (OracleConnection) Conexion.GetConnection();
@@ -265,9 +287,9 @@ public class Authors extends javax.swing.JFrame {
                 AUTOR p = (AUTOR) rs.getObject(1);
 
                 Object[] row = {
-                    p, p.getAuLname(), p.getAuFname(), p.getPhone(), p.getAddress(), p.getCity(), p.getState(), p.getZip(), p.getContract().toString()   
+                    p, p.getAuLname(), p.getAuFname(), p.getPhone(), p.getAddress(), p.getCity(), p.getState(), p.getZip(), p.getContract().toString()
                 };
-                
+
                 tm.addRow(row);
             }
             jTable1.setModel(tm);
@@ -310,6 +332,7 @@ public class Authors extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox jCkBxContrato;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -325,7 +348,6 @@ public class Authors extends javax.swing.JFrame {
     private javax.swing.JTextField jTxtFldApellido;
     private javax.swing.JTextField jTxtFldCiudad;
     private javax.swing.JTextField jTxtFldCodigoPostal;
-    private javax.swing.JTextField jTxtFldContrato;
     private javax.swing.JTextField jTxtFldDireccion;
     private javax.swing.JTextField jTxtFldEstado;
     private javax.swing.JTextField jTxtFldNombre;

@@ -106,12 +106,12 @@ public class TITULOAUTOR implements ORAData, ORADataFactory {
     ;
   protected MutableStruct _struct;
 
-    protected static int[] _sqlType = {2006, 2006, 2, 2};
-    protected static ORADataFactory[] _factory = new ORADataFactory[4];
+    protected static int[] _sqlType = {2, 2006, 2006, 2, 2};
+    protected static ORADataFactory[] _factory = new ORADataFactory[5];
 
     static {
-        _factory[0] = AUTORRef.getORADataFactory();
-        _factory[1] = TITULORef.getORADataFactory();
+        _factory[1] = AUTORRef.getORADataFactory();
+        _factory[2] = TITULORef.getORADataFactory();
     }
     protected static final TITULOAUTOR _TITULOAUTORFactory = new TITULOAUTOR();
 
@@ -122,7 +122,7 @@ public class TITULOAUTOR implements ORAData, ORADataFactory {
 
     protected void _init_struct(boolean init) {
         if (init) {
-            _struct = new MutableStruct(new Object[4], _sqlType, _factory);
+            _struct = new MutableStruct(new Object[5], _sqlType, _factory);
         }
     }
 
@@ -143,6 +143,7 @@ public class TITULOAUTOR implements ORAData, ORADataFactory {
 
     public TITULOAUTOR(AUTORRef refAuthor, TITULORef refTitle, java.math.BigDecimal auOrd, java.math.BigDecimal royaltyper) throws SQLException {
         _init_struct(true);
+        setId(null);
         setRefAuthor(refAuthor);
         setRefTitle(refTitle);
         setAuOrd(auOrd);
@@ -195,43 +196,51 @@ public class TITULOAUTOR implements ORAData, ORADataFactory {
     }
     /* accessor methods */
 
+    public java.math.BigDecimal getId() throws SQLException {
+        return (java.math.BigDecimal) _struct.getAttribute(0);
+    }
+
+    public void setId(java.math.BigDecimal id) throws SQLException {
+        _struct.setAttribute(0, id);
+    }
+
     public AUTORRef getRefAuthor() throws SQLException {
-        return (AUTORRef) _struct.getAttribute(0);
+        return (AUTORRef) _struct.getAttribute(1);
     }
 
     public void setRefAuthor(AUTORRef refAuthor) throws SQLException {
-        _struct.setAttribute(0, refAuthor);
+        _struct.setAttribute(1, refAuthor);
     }
 
     public TITULORef getRefTitle() throws SQLException {
-        return (TITULORef) _struct.getAttribute(1);
+        return (TITULORef) _struct.getAttribute(2);
     }
 
     public void setRefTitle(TITULORef refTitle) throws SQLException {
-        _struct.setAttribute(1, refTitle);
+        _struct.setAttribute(2, refTitle);
     }
 
     public java.math.BigDecimal getAuOrd() throws SQLException {
-        return (java.math.BigDecimal) _struct.getAttribute(2);
-    }
-
-    public void setAuOrd(java.math.BigDecimal auOrd) throws SQLException {
-        _struct.setAttribute(2, auOrd);
-    }
-
-    public java.math.BigDecimal getRoyaltyper() throws SQLException {
         return (java.math.BigDecimal) _struct.getAttribute(3);
     }
 
+    public void setAuOrd(java.math.BigDecimal auOrd) throws SQLException {
+        _struct.setAttribute(3, auOrd);
+    }
+
+    public java.math.BigDecimal getRoyaltyper() throws SQLException {
+        return (java.math.BigDecimal) _struct.getAttribute(4);
+    }
+
     public void setRoyaltyper(java.math.BigDecimal royaltyper) throws SQLException {
-        _struct.setAttribute(3, royaltyper);
+        _struct.setAttribute(4, royaltyper);
     }
 
     public TITULOAUTOR borrar()
             throws java.sql.SQLException {
         try {
             TITULOAUTOR __jPt_temp = this;
-            /*@lineinfo:generated-code*//*@lineinfo:155^5*/
+            /*@lineinfo:generated-code*//*@lineinfo:163^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] { BEGIN
@@ -271,7 +280,7 @@ public class TITULOAUTOR implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-            /*@lineinfo:user-code*//*@lineinfo:159^5*/
+            /*@lineinfo:user-code*//*@lineinfo:167^5*/
             return __jPt_temp;
         } catch (java.sql.SQLException _err) {
             try {
@@ -281,7 +290,7 @@ public class TITULOAUTOR implements ORAData, ORADataFactory {
                     throw _err;
                 }
                 TITULOAUTOR __jPt_temp = this;
-                /*@lineinfo:generated-code*//*@lineinfo:167^5*/
+                /*@lineinfo:generated-code*//*@lineinfo:175^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] { BEGIN
@@ -321,7 +330,7 @@ public class TITULOAUTOR implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-                /*@lineinfo:user-code*//*@lineinfo:171^5*/
+                /*@lineinfo:user-code*//*@lineinfo:179^5*/
                 return __jPt_temp;
             } catch (java.sql.SQLException _err2) {
                 try {
@@ -338,7 +347,7 @@ public class TITULOAUTOR implements ORAData, ORADataFactory {
             throws java.sql.SQLException {
         java.sql.ResultSet __jPt_result = null;
         try {
-            /*@lineinfo:generated-code*//*@lineinfo:186^5*/
+            /*@lineinfo:generated-code*//*@lineinfo:194^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] __jPt_result = { VALUES(PUBS.TITULOAUTOR.BUSCARAUTORESDETITULO(
@@ -376,7 +385,7 @@ public class TITULOAUTOR implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-            /*@lineinfo:user-code*//*@lineinfo:187^14*/
+            /*@lineinfo:user-code*//*@lineinfo:195^14*/
         } catch (java.sql.SQLException _err) {
             try {
                 getConnectionContext().getExecutionContext().close();
@@ -384,7 +393,7 @@ public class TITULOAUTOR implements ORAData, ORADataFactory {
                 if (__dataSource == null) {
                     throw _err;
                 }
-                /*@lineinfo:generated-code*//*@lineinfo:193^5*/
+                /*@lineinfo:generated-code*//*@lineinfo:201^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] __jPt_result = { VALUES(PUBS.TITULOAUTOR.BUSCARAUTORESDETITULO(
@@ -422,7 +431,7 @@ public class TITULOAUTOR implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-                /*@lineinfo:user-code*//*@lineinfo:194^14*/
+                /*@lineinfo:user-code*//*@lineinfo:202^14*/
             } catch (java.sql.SQLException _err2) {
                 try {
                     getConnectionContext().getExecutionContext().close();
@@ -439,7 +448,7 @@ public class TITULOAUTOR implements ORAData, ORADataFactory {
             throws java.sql.SQLException {
         java.sql.ResultSet __jPt_result = null;
         try {
-            /*@lineinfo:generated-code*//*@lineinfo:209^5*/
+            /*@lineinfo:generated-code*//*@lineinfo:217^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] __jPt_result = { VALUES(PUBS.TITULOAUTOR.BUSCARTITULOSDEAUTOR(
@@ -477,7 +486,7 @@ public class TITULOAUTOR implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-            /*@lineinfo:user-code*//*@lineinfo:210^14*/
+            /*@lineinfo:user-code*//*@lineinfo:218^14*/
         } catch (java.sql.SQLException _err) {
             try {
                 getConnectionContext().getExecutionContext().close();
@@ -485,7 +494,7 @@ public class TITULOAUTOR implements ORAData, ORADataFactory {
                 if (__dataSource == null) {
                     throw _err;
                 }
-                /*@lineinfo:generated-code*//*@lineinfo:216^5*/
+                /*@lineinfo:generated-code*//*@lineinfo:224^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] __jPt_result = { VALUES(PUBS.TITULOAUTOR.BUSCARTITULOSDEAUTOR(
@@ -523,7 +532,7 @@ public class TITULOAUTOR implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-                /*@lineinfo:user-code*//*@lineinfo:217^14*/
+                /*@lineinfo:user-code*//*@lineinfo:225^14*/
             } catch (java.sql.SQLException _err2) {
                 try {
                     getConnectionContext().getExecutionContext().close();
@@ -540,7 +549,7 @@ public class TITULOAUTOR implements ORAData, ORADataFactory {
         TITULOAUTOR __jPt_temp = (TITULOAUTOR) this;
         TITULOAUTORRef __jPt_result;
         try {
-            /*@lineinfo:generated-code*//*@lineinfo:232^5*/
+            /*@lineinfo:generated-code*//*@lineinfo:240^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] { BEGIN
@@ -580,7 +589,7 @@ public class TITULOAUTOR implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-            /*@lineinfo:user-code*//*@lineinfo:236^5*/
+            /*@lineinfo:user-code*//*@lineinfo:244^5*/
         } catch (java.sql.SQLException _err) {
             try {
                 getConnectionContext().getExecutionContext().close();
@@ -588,7 +597,7 @@ public class TITULOAUTOR implements ORAData, ORADataFactory {
                 if (__dataSource == null) {
                     throw _err;
                 }
-                /*@lineinfo:generated-code*//*@lineinfo:242^5*/
+                /*@lineinfo:generated-code*//*@lineinfo:250^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] { BEGIN
@@ -628,7 +637,7 @@ public class TITULOAUTOR implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-                /*@lineinfo:user-code*//*@lineinfo:246^5*/
+                /*@lineinfo:user-code*//*@lineinfo:254^5*/
             } catch (java.sql.SQLException _err2) {
                 try {
                     getConnectionContext().getExecutionContext().close();
@@ -644,7 +653,7 @@ public class TITULOAUTOR implements ORAData, ORADataFactory {
             throws java.sql.SQLException {
         try {
             TITULOAUTOR __jPt_temp = this;
-            /*@lineinfo:generated-code*//*@lineinfo:260^5*/
+            /*@lineinfo:generated-code*//*@lineinfo:268^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] { BEGIN
@@ -684,7 +693,7 @@ public class TITULOAUTOR implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-            /*@lineinfo:user-code*//*@lineinfo:264^5*/
+            /*@lineinfo:user-code*//*@lineinfo:272^5*/
             return __jPt_temp;
         } catch (java.sql.SQLException _err) {
             try {
@@ -694,7 +703,7 @@ public class TITULOAUTOR implements ORAData, ORADataFactory {
                     throw _err;
                 }
                 TITULOAUTOR __jPt_temp = this;
-                /*@lineinfo:generated-code*//*@lineinfo:272^5*/
+                /*@lineinfo:generated-code*//*@lineinfo:280^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] { BEGIN
@@ -734,7 +743,7 @@ public class TITULOAUTOR implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-                /*@lineinfo:user-code*//*@lineinfo:276^5*/
+                /*@lineinfo:user-code*//*@lineinfo:284^5*/
                 return __jPt_temp;
             } catch (java.sql.SQLException _err2) {
                 try {
@@ -756,7 +765,7 @@ public class TITULOAUTOR implements ORAData, ORADataFactory {
         TITULOAUTOR __jPt_temp = (TITULOAUTOR) this;
         TITULOAUTOR __jPt_result;
         try {
-            /*@lineinfo:generated-code*//*@lineinfo:296^5*/
+            /*@lineinfo:generated-code*//*@lineinfo:304^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] { BEGIN
@@ -807,7 +816,7 @@ public class TITULOAUTOR implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-            /*@lineinfo:user-code*//*@lineinfo:304^5*/
+            /*@lineinfo:user-code*//*@lineinfo:312^5*/
             __jPt_out[0] = __jPt_temp;
         } catch (java.sql.SQLException _err) {
             try {
@@ -816,7 +825,7 @@ public class TITULOAUTOR implements ORAData, ORADataFactory {
                 if (__dataSource == null) {
                     throw _err;
                 }
-                /*@lineinfo:generated-code*//*@lineinfo:311^5*/
+                /*@lineinfo:generated-code*//*@lineinfo:319^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] { BEGIN
@@ -867,7 +876,7 @@ public class TITULOAUTOR implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-                /*@lineinfo:user-code*//*@lineinfo:319^5*/
+                /*@lineinfo:user-code*//*@lineinfo:327^5*/
                 __jPt_out[0] = __jPt_temp;
             } catch (java.sql.SQLException _err2) {
                 try {

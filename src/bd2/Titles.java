@@ -30,6 +30,7 @@ public class Titles extends javax.swing.JFrame {
     public Titles() {
         initComponents();
         loadTitles();
+        fillComboEditorial();
     }
 
     /**
@@ -52,7 +53,6 @@ public class Titles extends javax.swing.JFrame {
         jTxtFldIdTitulo = new javax.swing.JTextField();
         jTxtFldNombre = new javax.swing.JTextField();
         jTxtFldTipo = new javax.swing.JTextField();
-        jTxtFldIdEditorial = new javax.swing.JTextField();
         jTxtFldPrecio = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -64,6 +64,11 @@ public class Titles extends javax.swing.JFrame {
         jTxtFldYTDVentas = new javax.swing.JTextField();
         jTxtFldNotas = new javax.swing.JTextField();
         jDatePicker = new org.jdesktop.swingx.JXDatePicker();
+        jCBEditorial = new javax.swing.JComboBox();
+        jLblEditorial = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -105,44 +110,65 @@ public class Titles extends javax.swing.JFrame {
 
         jLabel10.setText("Fecha Publicacion");
 
+        jCBEditorial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCBEditorialActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("jButton1");
+
+        jButton2.setText("jButton2");
+
+        jButton3.setText("jButton3");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 741, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jTxtFldIdTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                                .addComponent(jTxtFldPrecio)
+                                .addComponent(jTxtFldTipo)
+                                .addComponent(jTxtFldNombre))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jCBEditorial, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLblEditorial, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(2, 2, 2)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTxtFldRegalias)
+                            .addComponent(jTxtFldAvance)
+                            .addComponent(jTxtFldNotas)
+                            .addComponent(jDatePicker, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTxtFldYTDVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(51, 51, 51)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton1)
+                            .addComponent(jButton2)
+                            .addComponent(jButton3))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTxtFldPrecio, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                    .addComponent(jTxtFldIdEditorial)
-                    .addComponent(jTxtFldTipo)
-                    .addComponent(jTxtFldNombre)
-                    .addComponent(jTxtFldIdTitulo))
-                .addGap(59, 59, 59)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTxtFldNotas)
-                    .addComponent(jTxtFldYTDVentas)
-                    .addComponent(jTxtFldRegalias)
-                    .addComponent(jTxtFldAvance, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                    .addComponent(jDatePicker, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -163,10 +189,13 @@ public class Titles extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(jTxtFldTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(jTxtFldIdEditorial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel4)
+                                .addComponent(jCBEditorial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addComponent(jLblEditorial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
@@ -174,15 +203,18 @@ public class Titles extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(jTxtFldAvance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTxtFldAvance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
-                            .addComponent(jTxtFldRegalias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTxtFldRegalias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
-                            .addComponent(jTxtFldYTDVentas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTxtFldYTDVentas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
@@ -191,7 +223,7 @@ public class Titles extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
                             .addComponent(jDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -207,7 +239,18 @@ public class Titles extends javax.swing.JFrame {
             this.jTxtFldIdTitulo.setText(((x.getTitleId()) != null) ? x.getTitleId() + "" : "");
             this.jTxtFldNombre.setText(((x.getTitleName()) != null) ? x.getTitleName() + "" : "");
             this.jTxtFldTipo.setText(((x.getTitleType()) != null) ? x.getTitleType() + "" : "");
-            this.jTxtFldIdEditorial.setText(((e.getPubId()) != null) ? e.getPubId() + "" : "");
+            for (int i = 0; i < jCBEditorial.getItemCount(); i++) {
+                if (e == null) {
+                    jCBEditorial.setSelectedIndex(0);
+                    jLblEditorial.setText("");
+                    break;
+                }
+                if (jCBEditorial.getItemAt(i) instanceof EDITORIAL
+                        && e.getPubId().equals(((EDITORIAL) jCBEditorial.getItemAt(i)).getPubId())) {
+                    jCBEditorial.setSelectedIndex(i);
+                    break;
+                }
+            }
             this.jTxtFldPrecio.setText(((x.getPrice()) != null) ? x.getPrice() + "" : "");
             this.jTxtFldAvance.setText(((x.getAdvance()) != null) ? x.getAdvance() + "" : "");
             this.jTxtFldRegalias.setText(((x.getRoyalty()) != null) ? x.getRoyalty() + "" : "");
@@ -219,9 +262,44 @@ public class Titles extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
+    private void jCBEditorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBEditorialActionPerformed
+        // TODO add your handling code here:
+        try {
+            if (jCBEditorial.getSelectedItem() instanceof EDITORIAL) {
+                EDITORIAL p = (EDITORIAL) jCBEditorial.getSelectedItem();
+                jLblEditorial.setText(p.getPubName());
+            }
+        } catch (SQLException e) {
+        }
+    }//GEN-LAST:event_jCBEditorialActionPerformed
+
     /**
      * @param args the command line arguments
      */
+    
+    public void fillComboEditorial() {
+        try {
+            OracleConnection conn = (OracleConnection) Conexion.GetConnection();
+            Statement st = conn.createStatement();
+            Map map = (Map) conn.getTypeMap();
+            map.put(EDITORIAL._SQL_NAME, EDITORIAL.class);
+
+            ResultSet rs = st.executeQuery("SELECT value(e) FROM Editoriales e ORDER BY e.pub_id");
+            jCBEditorial.addItem("Seleccione Editorial");
+            while (rs.next()) {
+                EDITORIAL p = (EDITORIAL) rs.getObject(1);
+
+                jCBEditorial.addItem(p);
+            }
+            conn.close();
+        } catch (SQLException e) {
+            Logger.getLogger(this.getName()).log(Level.SEVERE, null, e.getMessage());
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+    
+    
+    
     public void loadTitles() {
         try {
             OracleConnection conn = (OracleConnection) Conexion.GetConnection();
@@ -296,6 +374,10 @@ public class Titles extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox jCBEditorial;
     private org.jdesktop.swingx.JXDatePicker jDatePicker;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -307,10 +389,10 @@ public class Titles extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLblEditorial;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTxtFldAvance;
-    private javax.swing.JTextField jTxtFldIdEditorial;
     private javax.swing.JTextField jTxtFldIdTitulo;
     private javax.swing.JTextField jTxtFldNombre;
     private javax.swing.JTextField jTxtFldNotas;

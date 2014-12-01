@@ -6,6 +6,7 @@
 package bd2;
 
 import entidades.DESCUENTO;
+import entidades.PUESTO;
 import entidades.TIENDA;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,6 +31,7 @@ public class Discounts extends javax.swing.JFrame {
     public Discounts() {
         initComponents();
         loadDiscounts();
+        fillComboTienda();
     }
 
     /**
@@ -49,10 +51,11 @@ public class Discounts extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jTxtFldTipoDescuento = new javax.swing.JTextField();
-        jTxtFldIdTienda = new javax.swing.JTextField();
         jTxtFldCantBaja = new javax.swing.JTextField();
         jTxtFldCantAlta = new javax.swing.JTextField();
         jTxtFldDescuento = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox();
+        jLblTienda = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -86,13 +89,17 @@ public class Discounts extends javax.swing.JFrame {
 
         jTxtFldTipoDescuento.setPreferredSize(new java.awt.Dimension(150, 22));
 
-        jTxtFldIdTienda.setPreferredSize(new java.awt.Dimension(150, 22));
-
         jTxtFldCantBaja.setPreferredSize(new java.awt.Dimension(150, 22));
 
         jTxtFldCantAlta.setPreferredSize(new java.awt.Dimension(150, 22));
 
         jTxtFldDescuento.setPreferredSize(new java.awt.Dimension(150, 22));
+
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -111,12 +118,14 @@ public class Discounts extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTxtFldTipoDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTxtFldIdTienda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTxtFldCantBaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTxtFldCantAlta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTxtFldDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTxtFldTipoDescuento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTxtFldCantBaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTxtFldCantAlta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTxtFldDescuento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLblTienda, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -131,7 +140,8 @@ public class Discounts extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTxtFldIdTienda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLblTienda, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -156,8 +166,19 @@ public class Discounts extends javax.swing.JFrame {
         x = (DESCUENTO) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
         TIENDA ti = (TIENDA) jTable1.getValueAt(jTable1.getSelectedRow(), 1);
         try {
-            this.jTxtFldTipoDescuento.setText(((x.getDiscounttype()) != null) ? x.getDiscounttype() +"":"");
-            this.jTxtFldIdTienda.setText((ti != null) ? ti + "" : "");
+            this.jTxtFldTipoDescuento.setText(((x.getDiscounttype()) != null) ? x.getDiscounttype() + "" : "");
+            for(int i = 0; i < jComboBox1.getItemCount(); i++){
+                if (ti == null){
+                    jComboBox1.setSelectedIndex(0);
+                    jLblTienda.setText("");
+                    break;
+                }
+                if (jComboBox1.getItemAt(i) instanceof TIENDA &&
+                        ti.getStorId().equals(((TIENDA)jComboBox1.getItemAt(i)).getStorId())){
+                    jComboBox1.setSelectedIndex(i);
+                    break;
+                }
+            }
             this.jTxtFldCantBaja.setText(((x.getLowqty()) != null) ? x.getLowqty() + "" : "");
             this.jTxtFldCantAlta.setText(((x.getHighqty()) != null) ? x.getHighqty() + "" : "");
             this.jTxtFldDescuento.setText(((x.getDiscount()) != null) ? x.getDiscount() + "" : "");
@@ -166,9 +187,40 @@ public class Discounts extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+        try {
+            if (jComboBox1.getSelectedItem() instanceof TIENDA){
+                TIENDA p = (TIENDA)jComboBox1.getSelectedItem();
+                jLblTienda.setText(p.getStorName());
+            }
+        } catch (SQLException e) {
+        }
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
+    public void fillComboTienda() {
+        try {
+            OracleConnection conn = (OracleConnection) Conexion.GetConnection();
+            Statement st = conn.createStatement();
+            Map map = (Map) conn.getTypeMap();
+            map.put(TIENDA._SQL_NAME, TIENDA.class);
+            
+            ResultSet rs = st.executeQuery("SELECT value(a) FROM tiendas a ORDER BY a.STOR_ID");
+            
+            jComboBox1.addItem("Seleccione Tianguis");
+            while (rs.next()) {                
+                TIENDA p = (TIENDA) rs.getObject(1);
+                
+                jComboBox1.addItem(p);
+            }
+            conn.close();
+        } catch (SQLException e) {
+        }
+    }
+
     public void loadDiscounts() {
         try {
             OracleConnection conn = (OracleConnection) Conexion.GetConnection();
@@ -244,17 +296,18 @@ public class Discounts extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLblTienda;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTxtFldCantAlta;
     private javax.swing.JTextField jTxtFldCantBaja;
     private javax.swing.JTextField jTxtFldDescuento;
-    private javax.swing.JTextField jTxtFldIdTienda;
     private javax.swing.JTextField jTxtFldTipoDescuento;
     // End of variables declaration//GEN-END:variables
 }

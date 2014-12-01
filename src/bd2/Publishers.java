@@ -52,6 +52,9 @@ public class Publishers extends javax.swing.JFrame {
         jTxtFldEstado = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jTxtFldPais = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -98,6 +101,27 @@ public class Publishers extends javax.swing.JFrame {
         jTxtFldPais.setMinimumSize(new java.awt.Dimension(200, 25));
         jTxtFldPais.setPreferredSize(new java.awt.Dimension(200, 25));
 
+        jButton1.setText("TEST: Nuevo");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("TEST: Update");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("TEST: Borrar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -125,6 +149,11 @@ public class Publishers extends javax.swing.JFrame {
                                 .addComponent(jLabel5)
                                 .addGap(18, 18, 18)
                                 .addComponent(jTxtFldPais, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(88, 88, 88)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1)
+                            .addComponent(jButton2)
+                            .addComponent(jButton3))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -136,15 +165,18 @@ public class Publishers extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTxtFldID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTxtFldID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTxtFldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTxtFldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTxtFldCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTxtFldCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -161,7 +193,7 @@ public class Publishers extends javax.swing.JFrame {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here: 
-        EDITORIAL x ;
+        EDITORIAL x;
         x = (EDITORIAL) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
         try {
             this.jTxtFldID.setText(((x.getPubId()) != null) ? x.getPubId() + "" : "");
@@ -172,47 +204,71 @@ public class Publishers extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(Publishers.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        newPublisher();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        updatePublisher();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        deletePublisher();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
      */
+    
+    public void clearFields(){
+        this.jTxtFldCiudad.setText("");
+        this.jTxtFldEstado.setText("");
+        this.jTxtFldID.setText("");
+        this.jTxtFldNombre.setText("");
+        this.jTxtFldPais.setText("");
+        
+        loadPublisher();
+    }
+    
     public void loadPublisher() {
         try {
             OracleConnection conn = Conexion.GetConnection();
             Statement st = conn.createStatement();
             Map map = (Map) conn.getTypeMap();
-            map.put(EDITORIAL._SQL_NAME, EDITORIAL.class);     
-            
+            map.put(EDITORIAL._SQL_NAME, EDITORIAL.class);
+
             String[] columns = {
-                "ID Editorial","Nombre","Ciudad","Estado","Pais"
+                "ID Editorial", "Nombre", "Ciudad", "Estado", "Pais"
             };
-            
+
             DefaultTableModel tm = new DefaultTableModel(null, columns) {
                 @Override
                 public boolean isCellEditable(int rowIndex, int colIndex) {
                     return false;
                 }
             };
-            
-          //  DefaultContext dc = new DefaultContext(conn);
 
+            //  DefaultContext dc = new DefaultContext(conn);
             ResultSet rs = st.executeQuery("SELECT value(e) FROM Editoriales e ORDER BY e.pub_id");
-            while(rs.next()){
-                EDITORIAL p = (EDITORIAL)rs.getObject(1);
-                
+            while (rs.next()) {
+                EDITORIAL p = (EDITORIAL) rs.getObject(1);
+
                 Object[] rows = {
-                    p,p.getPubName(),p.getCity(),p.getState(),p.getCountry()
+                    p, p.getPubName(), p.getCity(), p.getState(), p.getCountry()
                 };
-                
+
                 tm.addRow(rows);
-                
+
             }
-            
+
             this.jTable1.setModel(tm);
-            
-            
+
 //            
 //            System.out.println();
 //            EDITORIAL e = new EDITORIAL();
@@ -224,14 +280,94 @@ public class Publishers extends javax.swing.JFrame {
 //            System.out.println();
 //            //e.borrar();
 //            rs = st.executeQuery("SELECT value(e) FROM Editoriales e ORDER BY e.pub_id");
-            while(rs.next()){
-                EDITORIAL p = (EDITORIAL)rs.getObject(1);
-                System.out.println(p.getPubId()+", "+p.getPubName()+", "+p.getCountry()+", "+p.getState()+", "+p.getCity());
+            while (rs.next()) {
+                EDITORIAL p = (EDITORIAL) rs.getObject(1);
+                System.out.println(p.getPubId() + ", " + p.getPubName() + ", " + p.getCountry() + ", " + p.getState() + ", " + p.getCity());
             }
         } catch (SQLException e) {
             Logger.getLogger(this.getName()).log(Level.SEVERE, null, e);
             JOptionPane.showMessageDialog(this, e.getMessage());
-        }  
+        }
+    }
+
+    public void newPublisher() {
+        try {
+            OracleConnection conn = Conexion.GetConnection();
+            Map map = (Map) conn.getTypeMap();
+            map.put(EDITORIAL._SQL_NAME, EDITORIAL.class);
+            DefaultContext dc = new DefaultContext(conn);
+
+            EDITORIAL e = new EDITORIAL();
+            e.setConnectionContext(dc);
+
+            e.setPubId(jTxtFldID.getText());
+            e.setPubName(jTxtFldNombre.getText());
+            e.setCity(jTxtFldCiudad.getText());
+            e.setState(jTxtFldEstado.getText());
+            e.setCountry(jTxtFldPais.getText());
+
+            System.out.println(e.getCity());
+            e.guardar();
+            loadPublisher();
+            clearFields();
+        } catch (SQLException e) {
+            Logger.getLogger(this.getName()).log(Level.SEVERE, null, e);
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+
+    public void updatePublisher() {
+
+        try {
+            OracleConnection conn = Conexion.GetConnection();
+            Map map = (Map) conn.getTypeMap();
+            map.put(EDITORIAL._SQL_NAME, EDITORIAL.class);
+            DefaultContext dc = new DefaultContext(conn);
+
+            EDITORIAL e = new EDITORIAL();
+
+            e.setConnectionContext(dc);
+
+            e = (EDITORIAL) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
+            System.out.println(e.getId());
+
+            e.setPubId(jTxtFldID.getText());
+            e.setPubName(jTxtFldNombre.getText());
+            e.setCity(jTxtFldCiudad.getText());
+            e.setState(jTxtFldEstado.getText());
+            e.setCountry(jTxtFldPais.getText());
+
+            System.out.println(e.getId());
+            
+            e.guardar();
+            loadPublisher();
+            clearFields();
+        } catch (SQLException e) {
+            Logger.getLogger(this.getName()).log(Level.SEVERE, null, e);
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+    
+    public void deletePublisher(){
+        try {
+            OracleConnection conn = Conexion.GetConnection();
+            Map map = (Map) conn.getTypeMap();
+            map.put(EDITORIAL._SQL_NAME, EDITORIAL.class);
+            DefaultContext dc = new DefaultContext(conn);
+
+            EDITORIAL e = new EDITORIAL();
+            
+            e.setConnectionContext(dc);
+            
+            e = (EDITORIAL) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
+            
+            e.borrar();
+            loadPublisher();
+            clearFields();
+        } catch (SQLException e) {
+            Logger.getLogger(this.getName()).log(Level.SEVERE, null, e);
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     }
 
     public static void main(String args[]) {
@@ -267,6 +403,9 @@ public class Publishers extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

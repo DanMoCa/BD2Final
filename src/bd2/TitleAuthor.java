@@ -6,8 +6,10 @@
 package bd2;
 
 import entidades.AUTOR;
+import entidades.PUESTO;
 import entidades.TITULO;
 import entidades.TITULOAUTOR;
+import java.awt.Event;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -30,6 +32,8 @@ public class TitleAuthor extends javax.swing.JFrame {
     public TitleAuthor() {
         initComponents();
         loadTitleAuthor();
+        fillComboAutor();
+        fillComboTitulo();
     }
 
     /**
@@ -47,10 +51,12 @@ public class TitleAuthor extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTxtFldIdAutor = new javax.swing.JTextField();
-        jTxtFldIdTitulo = new javax.swing.JTextField();
         jTxtFldOrdenAutor = new javax.swing.JTextField();
         jTxtTipoRegalia = new javax.swing.JTextField();
+        jCBAutor = new javax.swing.JComboBox();
+        jCBTitulo = new javax.swing.JComboBox();
+        jLblAutor = new javax.swing.JLabel();
+        jLbltitulo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,13 +86,21 @@ public class TitleAuthor extends javax.swing.JFrame {
 
         jLabel4.setText("Tipo Regalia");
 
-        jTxtFldIdAutor.setPreferredSize(new java.awt.Dimension(100, 20));
-
-        jTxtFldIdTitulo.setPreferredSize(new java.awt.Dimension(100, 20));
-
         jTxtFldOrdenAutor.setPreferredSize(new java.awt.Dimension(100, 20));
 
         jTxtTipoRegalia.setPreferredSize(new java.awt.Dimension(100, 20));
+
+        jCBAutor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCBAutorActionPerformed(evt);
+            }
+        });
+
+        jCBTitulo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCBTituloActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -95,7 +109,7 @@ public class TitleAuthor extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 713, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
@@ -104,11 +118,15 @@ public class TitleAuthor extends javax.swing.JFrame {
                                 .addComponent(jLabel2)
                                 .addComponent(jLabel1)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTxtFldIdAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTxtFldIdTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTxtFldOrdenAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTxtTipoRegalia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTxtTipoRegalia, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                            .addComponent(jTxtFldOrdenAutor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jCBTitulo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jCBAutor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLblAutor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLbltitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -120,11 +138,13 @@ public class TitleAuthor extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTxtFldIdAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jCBAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLblAutor, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTxtFldIdTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jCBTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLbltitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -133,7 +153,7 @@ public class TitleAuthor extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jTxtTipoRegalia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -147,8 +167,30 @@ public class TitleAuthor extends javax.swing.JFrame {
         TITULO t = (TITULO) jTable1.getValueAt(jTable1.getSelectedRow(), 1);
 
         try {
-            this.jTxtFldIdAutor.setText(((a.getAuId()) != null) ? a.getAuId() + "" : "");
-            this.jTxtFldIdTitulo.setText(((t.getTitleId())!= null) ? t.getTitleId() + "" : "");
+            for (int i = 0; i < jCBAutor.getItemCount(); i++) {
+                if (a == null) {
+                    jCBAutor.setSelectedIndex(0);
+                    jLblAutor.setText("");
+                    break;
+                }
+                if (jCBAutor.getItemAt(i) instanceof AUTOR
+                        && a.getAuId().equals(((AUTOR) jCBAutor.getItemAt(i)).getAuId())) {
+                    jCBAutor.setSelectedIndex(i);
+                    break;
+                }
+            }
+            for (int i = 0; i < jCBTitulo.getItemCount(); i++) {
+                if (a == null) {
+                    jCBTitulo.setSelectedIndex(0);
+                    jLbltitulo.setText("");
+                    break;
+                }
+                if (jCBTitulo.getItemAt(i) instanceof TITULO
+                        && a.getAuId().equals(((TITULO) jCBTitulo.getItemAt(i)).getTitleId())) {
+                    jCBTitulo.setSelectedIndex(i);
+                    break;
+                }
+            }
             this.jTxtFldOrdenAutor.setText(((x.getAuOrd()) != null) ? x.getAuOrd() + "" : "");
             this.jTxtTipoRegalia.setText(((x.getRoyaltyper()) != null) ? x.getRoyaltyper() + "" : "");
         } catch (SQLException ex) {
@@ -157,9 +199,70 @@ public class TitleAuthor extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jTable1MouseClicked
 
+    private void jCBAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBAutorActionPerformed
+        // TODO add your handling code here:
+        try {
+            if (jCBAutor.getSelectedItem() instanceof AUTOR) {
+                AUTOR p = (AUTOR) jCBAutor.getSelectedItem();
+                jLblAutor.setText(p.getAuFname() + " " + p.getAuLname());
+            }
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jCBAutorActionPerformed
+
+    private void jCBTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBTituloActionPerformed
+        // TODO add your handling code here:
+        try {
+            if (jCBTitulo.getSelectedItem() instanceof TITULO) {
+                TITULO p = (TITULO) jCBTitulo.getSelectedItem();
+                jLbltitulo.setText(p.getTitleName());
+            }
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jCBTituloActionPerformed
+
     /**
      * @param args the command line arguments
      */
+    public void fillComboAutor() {
+        try {
+            OracleConnection conn = (OracleConnection) Conexion.GetConnection();
+            Statement st = conn.createStatement();
+            Map map = (Map) conn.getTypeMap();
+            map.put(AUTOR._SQL_NAME, AUTOR.class);
+
+            ResultSet rs = st.executeQuery("SELECT value(a) FROM autores a ORDER BY a.au_id");
+            jCBAutor.addItem("Seleccione Autor");
+            while (rs.next()) {
+                AUTOR p = (AUTOR) rs.getObject(1);
+
+                jCBAutor.addItem(p);
+            }
+            conn.close();
+        } catch (SQLException e) {
+        }
+    }
+
+    public void fillComboTitulo() {
+        try {
+            OracleConnection conn = (OracleConnection) Conexion.GetConnection();
+            Statement st = conn.createStatement();
+            Map map = (Map) conn.getTypeMap();
+            map.put(TITULO._SQL_NAME, TITULO.class);
+
+            jCBAutor.addItem("Seleccione Titulo");
+            ResultSet rs = st.executeQuery("SELECT value(a) FROM titulos a");
+
+            while (rs.next()) {
+                TITULO p = (TITULO) rs.getObject(1);
+
+                jCBAutor.addItem(p);
+            }
+            conn.close();
+        } catch (SQLException e) {
+        }
+    }
+
     public void loadTitleAuthor() {
         try {
             OracleConnection conn = (OracleConnection) Conexion.GetConnection();
@@ -240,14 +343,16 @@ public class TitleAuthor extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox jCBAutor;
+    private javax.swing.JComboBox jCBTitulo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLblAutor;
+    private javax.swing.JLabel jLbltitulo;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTxtFldIdAutor;
-    private javax.swing.JTextField jTxtFldIdTitulo;
     private javax.swing.JTextField jTxtFldOrdenAutor;
     private javax.swing.JTextField jTxtTipoRegalia;
     // End of variables declaration//GEN-END:variables
