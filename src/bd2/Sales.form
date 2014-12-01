@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
   </Properties>
@@ -47,7 +47,7 @@
                           <Component id="jTxtFldCantidad" max="32767" attributes="0"/>
                           <Component id="jTxtFldTerminos" max="32767" attributes="0"/>
                           <Component id="jTxtFldIdTitulo" max="32767" attributes="0"/>
-                          <Component id="jDatePickerFechaOrden" max="32767" attributes="0"/>
+                          <Component id="jXDatePicker1" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -73,7 +73,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jDatePickerFechaOrden" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jXDatePicker1" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -185,7 +185,10 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="org.jdesktop.swingx.JXDatePicker" name="jDatePickerFechaOrden">
+    <Component class="org.jdesktop.swingx.JXDatePicker" name="jXDatePicker1">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="String formats = &quot;yyyy-MM-dd&quot;;&#xa;&#xa;this.jXDatePicker1.setFormats(formats);"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

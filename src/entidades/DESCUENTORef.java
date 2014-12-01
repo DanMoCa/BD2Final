@@ -1,4 +1,4 @@
-package corp;
+package entidades;
 
 import java.sql.SQLException;
 import java.sql.Connection;
@@ -9,19 +9,19 @@ import oracle.sql.Datum;
 import oracle.sql.REF;
 import oracle.sql.STRUCT;
 
-public class EDITORIALRef implements ORAData, ORADataFactory
+public class DESCUENTORef implements ORAData, ORADataFactory
 {
-  public static final String _SQL_BASETYPE = "PUBS.EDITORIAL";
+  public static final String _SQL_BASETYPE = "PUBS.DESCUENTO";
   public static final int _SQL_TYPECODE = OracleTypes.REF;
 
   REF _ref;
 
-private static final EDITORIALRef _EDITORIALRefFactory = new EDITORIALRef();
+private static final DESCUENTORef _DESCUENTORefFactory = new DESCUENTORef();
 
   public static ORADataFactory getORADataFactory()
-  { return _EDITORIALRefFactory; }
+  { return _DESCUENTORefFactory; }
   /* constructor */
-  public EDITORIALRef()
+  public DESCUENTORef()
   {
   }
 
@@ -35,26 +35,26 @@ private static final EDITORIALRef _EDITORIALRefFactory = new EDITORIALRef();
   public ORAData create(Datum d, int sqlType) throws SQLException
   {
     if (d == null) return null; 
-    EDITORIALRef r = new EDITORIALRef();
+    DESCUENTORef r = new DESCUENTORef();
     r._ref = (REF) d;
     return r;
   }
 
-  public static EDITORIALRef cast(ORAData o) throws SQLException
+  public static DESCUENTORef cast(ORAData o) throws SQLException
   {
      if (o == null) return null;
-     try { return (EDITORIALRef) getORADataFactory().create(o.toDatum(null), OracleTypes.REF); }
+     try { return (DESCUENTORef) getORADataFactory().create(o.toDatum(null), OracleTypes.REF); }
      catch (Exception exn)
-     { throw new SQLException("Unable to convert "+o.getClass().getName()+" to EDITORIALRef: "+exn.toString()); }
+     { throw new SQLException("Unable to convert "+o.getClass().getName()+" to DESCUENTORef: "+exn.toString()); }
   }
 
-  public EDITORIAL getValue() throws SQLException
+  public DESCUENTO getValue() throws SQLException
   {
-     return (EDITORIAL) EDITORIAL.getORADataFactory().create(
+     return (DESCUENTO) DESCUENTO.getORADataFactory().create(
        _ref.getSTRUCT(), OracleTypes.REF);
   }
 
-  public void setValue(EDITORIAL c) throws SQLException
+  public void setValue(DESCUENTO c) throws SQLException
   {
     _ref.setValue((STRUCT) c.toDatum(_ref.getJavaSqlConnection()));
   }

@@ -5,11 +5,13 @@
  */
 package bd2;
 
-import java.sql.Connection;
+import entidades.EDITORIAL;
+import entidades.TITULO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -197,34 +199,39 @@ public class Titles extends javax.swing.JFrame {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-        this.jTxtFldIdTitulo.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 0));
-        this.jTxtFldNombre.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 1));
-        this.jTxtFldTipo.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 2));
-        this.jTxtFldIdEditorial.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 3));
-        this.jTxtFldPrecio.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 4));
-        this.jTxtFldAvance.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 5));
-        this.jTxtFldRegalias.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 6));
-        this.jTxtFldYTDVentas.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 7));
-        this.jTxtFldNotas.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 8));
-        this.jDatePicker.setDate((Date) jTable1.getValueAt(jTable1.getSelectedRow(), 9));
-        
+        TITULO x;
+        x = (TITULO) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
+        EDITORIAL e = (EDITORIAL) jTable1.getValueAt(jTable1.getSelectedRow(), 3);
+
+        try {
+            this.jTxtFldIdTitulo.setText(((x.getTitleId()) != null) ? x.getTitleId() + "" : "");
+            this.jTxtFldNombre.setText(((x.getTitleName()) != null) ? x.getTitleName() + "" : "");
+            this.jTxtFldTipo.setText(((x.getTitleType()) != null) ? x.getTitleType() + "" : "");
+            this.jTxtFldIdEditorial.setText(((e.getPubId()) != null) ? e.getPubId() + "" : "");
+            this.jTxtFldPrecio.setText(((x.getPrice()) != null) ? x.getPrice() + "" : "");
+            this.jTxtFldAvance.setText(((x.getAdvance()) != null) ? x.getAdvance() + "" : "");
+            this.jTxtFldRegalias.setText(((x.getRoyalty()) != null) ? x.getRoyalty() + "" : "");
+            this.jTxtFldYTDVentas.setText(((x.getYtdSales()) != null) ? x.getYtdSales() + "" : "");
+            this.jTxtFldNotas.setText(((x.getNotes()) != null) ? x.getNotes() + "" : "");
+            this.jDatePicker.setDate(x.getPubdate());
+        } catch (SQLException ex) {
+            Logger.getLogger(Discounts.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
      */
-    
-    public void loadTitles(){
+    public void loadTitles() {
         try {
             OracleConnection conn = (OracleConnection) Conexion.GetConnection();
             Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery("SELECT value(a) FROM titulos a");
-            
+            Map map = (Map) conn.getTypeMap();
+            map.put(TITULO._SQL_NAME, TITULO.class);
             String[] columns = {
-                "ID Titulo","Nombre","Tipo","ID Editorial","Precio","Avance","Regalias","YTD_Ventas","Notas","Fecha Publicación"
+                "ID Titulo", "Nombre", "Tipo", "ID Editorial", "Precio", "Avance", "Regalias", "YTD_Ventas", "Notas", "Fecha Publicación"
             };
-            
-            
+
             DefaultTableModel tm = new DefaultTableModel(null, columns) {
                 @Override
                 public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -232,40 +239,30 @@ public class Titles extends javax.swing.JFrame {
                 }
             };
 
+            ResultSet rs = st.executeQuery("SELECT value(a) FROM titulos a");
             while (rs.next()) {
-                oracle.sql.STRUCT eddy = (oracle.sql.STRUCT) rs.getObject(1);
-                Object[] objValues = eddy.getAttributes();
-                
-                /* BigDecimal to String */
-                java.math.BigDecimal precio = (java.math.BigDecimal)objValues[4];
-                java.math.BigDecimal avance = (java.math.BigDecimal)objValues[5];
-                java.math.BigDecimal regalias = (java.math.BigDecimal)objValues[6];
-                java.math.BigDecimal ytdsales = (java.math.BigDecimal)objValues[7];
-                
-                
-                String strPrecio = precio.toString();
-                String strAvance = avance.toString();
-                String strRegalias = regalias.toString();
-                String strYTDSales = ytdsales.toString();
-                
-                /* Date to String */
-                java.sql.Timestamp ts = (java.sql.Timestamp) objValues[9];
-                String strTS = ts.toString();
-                
-                
-                String[] row = {
-                    (String)objValues[0],(String)objValues[1],(String)objValues[2],(String)objValues[3],strPrecio,strAvance,strRegalias,strYTDSales,(String)objValues[8],strTS
+                TITULO p = (TITULO) rs.getObject(1);
+
+                EDITORIAL ed = null;
+                try {
+                    ed = p.getRefPub().getValue();
+                } catch (SQLException e) {
+                    ed = null;
+                }
+
+                Object[] row = {
+                    p, p.getTitleName(), p.getTitleType(), ed.getPubId(), p.getPrice(), p.getAdvance(), p.getRoyalty(), p.getYtdSales(), p.getNotes(), p.getPubdate()
                 };
-                
+
                 tm.addRow(row);
             }
             jTable1.setModel(tm);
         } catch (SQLException e) {
             Logger.getLogger(this.getName()).log(Level.SEVERE, null, e.getMessage());
             JOptionPane.showMessageDialog(this, e.getMessage());
-        }    
+        }
     }
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

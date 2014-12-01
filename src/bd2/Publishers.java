@@ -5,7 +5,7 @@
  */
 package bd2;
 
-import corp.EDITORIAL;
+import entidades.EDITORIAL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -81,7 +81,22 @@ public class Publishers extends javax.swing.JFrame {
 
         jLabel4.setText("Estado");
 
+        jTxtFldID.setMinimumSize(new java.awt.Dimension(200, 25));
+        jTxtFldID.setPreferredSize(new java.awt.Dimension(200, 25));
+
+        jTxtFldNombre.setMinimumSize(new java.awt.Dimension(200, 25));
+        jTxtFldNombre.setPreferredSize(new java.awt.Dimension(200, 25));
+
+        jTxtFldCiudad.setMinimumSize(new java.awt.Dimension(200, 25));
+        jTxtFldCiudad.setPreferredSize(new java.awt.Dimension(200, 25));
+
+        jTxtFldEstado.setMinimumSize(new java.awt.Dimension(200, 25));
+        jTxtFldEstado.setPreferredSize(new java.awt.Dimension(200, 25));
+
         jLabel5.setText("Pais");
+
+        jTxtFldPais.setMinimumSize(new java.awt.Dimension(200, 25));
+        jTxtFldPais.setPreferredSize(new java.awt.Dimension(200, 25));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -90,24 +105,26 @@ public class Publishers extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 827, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jTxtFldNombre, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTxtFldCiudad, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTxtFldEstado, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                            .addComponent(jTxtFldID)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addComponent(jLabel5)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTxtFldPais, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jTxtFldNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jTxtFldCiudad, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jTxtFldEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jTxtFldID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(33, 33, 33)
+                                .addComponent(jLabel5)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTxtFldPais, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -136,22 +153,22 @@ public class Publishers extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jTxtFldPais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        // TODO add your handling code here:
+        // TODO add your handling code here: 
         EDITORIAL x ;
         x = (EDITORIAL) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
         try {
-            this.jTxtFldID.setText(x.getPubId());
-            this.jTxtFldNombre.setText(x.getPubName());
-            this.jTxtFldCiudad.setText(x.getCity());
-            this.jTxtFldEstado.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 3));
-            this.jTxtFldPais.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 4));
+            this.jTxtFldID.setText(((x.getPubId()) != null) ? x.getPubId() + "" : "");
+            this.jTxtFldNombre.setText(((x.getPubName()) != null) ? x.getPubName() + "" : "");
+            this.jTxtFldCiudad.setText(((x.getCity()) != null) ? x.getCity() + "" : "");
+            this.jTxtFldEstado.setText(((x.getState()) != null) ? x.getState() + "" : "");
+            this.jTxtFldPais.setText(((x.getCountry()) != null) ? x.getCountry() + "" : "");
         } catch (SQLException ex) {
             Logger.getLogger(Publishers.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -179,12 +196,12 @@ public class Publishers extends javax.swing.JFrame {
                 }
             };
             
-            DefaultContext dc = new DefaultContext(conn);
-            //            ('1756','Ramona Publishers','Dallas','TX','USA');
+          //  DefaultContext dc = new DefaultContext(conn);
+
             ResultSet rs = st.executeQuery("SELECT value(e) FROM Editoriales e ORDER BY e.pub_id");
             while(rs.next()){
                 EDITORIAL p = (EDITORIAL)rs.getObject(1);
-                //marcame :(
+                
                 Object[] rows = {
                     p,p.getPubName(),p.getCity(),p.getState(),p.getCountry()
                 };
@@ -196,16 +213,17 @@ public class Publishers extends javax.swing.JFrame {
             this.jTable1.setModel(tm);
             
             
-            
-            System.out.println();
-            EDITORIAL e = new EDITORIAL();
-            e.setConnectionContext(dc);
-            e = e.buscar("1756");
-            System.out.println(e.getPubId()+", "+e.getPubName()+", "+e.getCountry()+", "+e.getState()+", "+e.getCity());
-            
-            System.out.println();
-            //e.borrar();
-            rs = st.executeQuery("SELECT value(e) FROM Editoriales e ORDER BY e.pub_id");
+//            
+//            System.out.println();
+//            EDITORIAL e = new EDITORIAL();
+//            e.setConnectionContext(dc);
+//            e = e.buscar("1756");
+//            
+//            System.out.println(e.getPubId()+", "+e.getPubName()+", "+e.getCountry()+", "+e.getState()+", "+e.getCity());
+//            
+//            System.out.println();
+//            //e.borrar();
+//            rs = st.executeQuery("SELECT value(e) FROM Editoriales e ORDER BY e.pub_id");
             while(rs.next()){
                 EDITORIAL p = (EDITORIAL)rs.getObject(1);
                 System.out.println(p.getPubId()+", "+p.getPubName()+", "+p.getCountry()+", "+p.getState()+", "+p.getCity());

@@ -5,15 +5,18 @@
  */
 package bd2;
 
-import java.sql.Connection;
+import entidades.DESCUENTO;
+import entidades.TIENDA;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import oracle.jdbc.driver.OracleConnection;
+import sqlj.runtime.ref.DefaultContext;
 
 /**
  *
@@ -26,7 +29,7 @@ public class Discounts extends javax.swing.JFrame {
      */
     public Discounts() {
         initComponents();
-        loadDiscounts();        
+        loadDiscounts();
     }
 
     /**
@@ -149,28 +152,35 @@ public class Discounts extends javax.swing.JFrame {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-        this.jTxtFldTipoDescuento.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 0));
-        this.jTxtFldIdTienda.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 1));
-        this.jTxtFldCantBaja.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 2));
-        this.jTxtFldCantAlta.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 3));
-        this.jTxtFldDescuento.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 4));
+        DESCUENTO x;
+        x = (DESCUENTO) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
+        TIENDA ti = (TIENDA) jTable1.getValueAt(jTable1.getSelectedRow(), 1);
+        try {
+            this.jTxtFldTipoDescuento.setText(((x.getDiscounttype()) != null) ? x.getDiscounttype() +"":"");
+            this.jTxtFldIdTienda.setText((ti != null) ? ti + "" : "");
+            this.jTxtFldCantBaja.setText(((x.getLowqty()) != null) ? x.getLowqty() + "" : "");
+            this.jTxtFldCantAlta.setText(((x.getHighqty()) != null) ? x.getHighqty() + "" : "");
+            this.jTxtFldDescuento.setText(((x.getDiscount()) != null) ? x.getDiscount() + "" : "");
+        } catch (SQLException ex) {
+            Logger.getLogger(Discounts.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
      */
-    
-    public void loadDiscounts(){
+    public void loadDiscounts() {
         try {
             OracleConnection conn = (OracleConnection) Conexion.GetConnection();
             Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery("SELECT value(a) FROM descuentos a");
-            
+            Map map = (Map) conn.getTypeMap();
+            map.put(DESCUENTO._SQL_NAME, DESCUENTO.class);
+
             String[] columns = {
-                "Tipo de Descuneto","ID Tiendo","Cantidad Baja","Cantidad Alta","Descuento"
+                "Tipo de Descuneto", "ID Tienda", "Cantidad Baja", "Cantidad Alta", "Descuento"
             };
-            
-            //8 columnas
+
+            ResultSet rs = st.executeQuery("SELECT value(a) FROM descuentos a");
             DefaultTableModel tm = new DefaultTableModel(null, columns) {
                 @Override
                 public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -179,22 +189,19 @@ public class Discounts extends javax.swing.JFrame {
             };
 
             while (rs.next()) {
-                oracle.sql.STRUCT eddy = (oracle.sql.STRUCT) rs.getObject(1);
-                Object[] objValues = eddy.getAttributes();
-                
-                /* BigDecimal to String */
-                java.math.BigDecimal lowQTY = (java.math.BigDecimal)objValues[5];
-                java.math.BigDecimal highQTY = (java.math.BigDecimal)objValues[5];
-                java.math.BigDecimal discount = (java.math.BigDecimal)objValues[5];
-                
-                String strLowQTY = lowQTY.toString();
-                String strHighQTY = highQTY.toString();
-                String strDiscount = discount.toString();
-                
-                String[] row = {
-                    (String)objValues[0],(String)objValues[1],strLowQTY,strHighQTY,strDiscount
+                DESCUENTO p = (DESCUENTO) rs.getObject(1);
+
+                TIENDA t = null;
+                try {
+                    t = p.getRefStor().getValue();
+                } catch (java.lang.NullPointerException nipex) {
+                    t = null;
+                }
+
+                Object[] row = {
+                    p, t, p.getLowqty(), p.getHighqty(), p.getDiscount()
                 };
-                
+
                 tm.addRow(row);
             }
             jTable1.setModel(tm);
@@ -203,7 +210,7 @@ public class Discounts extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
-            
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

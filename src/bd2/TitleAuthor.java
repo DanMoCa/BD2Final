@@ -5,10 +5,13 @@
  */
 package bd2;
 
-import java.sql.Connection;
+import entidades.AUTOR;
+import entidades.TITULO;
+import entidades.TITULOAUTOR;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -138,27 +141,36 @@ public class TitleAuthor extends javax.swing.JFrame {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-        this.jTxtFldIdAutor.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 0));
-        this.jTxtFldIdTitulo.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 1));
-        this.jTxtFldOrdenAutor.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 2));
-        this.jTxtTipoRegalia.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 3));
+        TITULOAUTOR x;
+        x = (TITULOAUTOR) jTable1.getValueAt(jTable1.getSelectedRow(), 2);
+        AUTOR a = (AUTOR) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
+        TITULO t = (TITULO) jTable1.getValueAt(jTable1.getSelectedRow(), 1);
+
+        try {
+            this.jTxtFldIdAutor.setText(((a.getAuId()) != null) ? a.getAuId() + "" : "");
+            this.jTxtFldIdTitulo.setText(((t.getTitleId())!= null) ? t.getTitleId() + "" : "");
+            this.jTxtFldOrdenAutor.setText(((x.getAuOrd()) != null) ? x.getAuOrd() + "" : "");
+            this.jTxtTipoRegalia.setText(((x.getRoyaltyper()) != null) ? x.getRoyaltyper() + "" : "");
+        } catch (SQLException ex) {
+            Logger.getLogger(TitleAuthor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
      */
-    
-    public void loadTitleAuthor(){
+    public void loadTitleAuthor() {
         try {
             OracleConnection conn = (OracleConnection) Conexion.GetConnection();
             Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery("SELECT value(a) FROM titulo_autor a");
-            
+            Map map = (Map) conn.getTypeMap();
+            map.put(TITULOAUTOR._SQL_NAME, TITULOAUTOR.class);
+
             String[] columns = {
-                "ID Autor","ID Titulo","Orden Autor","Regalia Tipo"
+                "ID Autor", "ID Titulo", "Orden Autor", "Regalia Tipo"
             };
-            
-            
+
             DefaultTableModel tm = new DefaultTableModel(null, columns) {
                 @Override
                 public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -166,36 +178,35 @@ public class TitleAuthor extends javax.swing.JFrame {
                 }
             };
 
+            ResultSet rs = st.executeQuery("SELECT value(a) FROM titulo_autor a");
             while (rs.next()) {
-                oracle.sql.STRUCT eddy = (oracle.sql.STRUCT) rs.getObject(1);
-                Object[] objValues = eddy.getAttributes();
-                
-                /* BigDecimal to String */
-                java.math.BigDecimal au_ord = (java.math.BigDecimal)objValues[2];
-                java.math.BigDecimal royalTyper = (java.math.BigDecimal)objValues[3];
-                
-                
-                String strAuOrd = au_ord.toString();
-                String strRoyalTyper = royalTyper.toString();
-                
-                /* Date to String 
-                java.sql.Timestamp ts = (java.sql.Timestamp) objValues[9];
-                String strTS = ts.toString(); */
-                
-                
-                String[] row = {
-                    (String)objValues[0],(String)objValues[1], strAuOrd, strRoyalTyper
+                TITULOAUTOR p = (TITULOAUTOR) rs.getObject(1);
+                AUTOR a = null;
+                try {
+                    a = p.getRefAuthor().getValue();
+                } catch (SQLException e) {
+                    a = null;
+                }
+                TITULO t = null;
+                try {
+                    t = p.getRefTitle().getValue();
+                } catch (SQLException e) {
+                    t = null;
+                }
+
+                Object[] row = {
+                    a, t, p, p.getRoyaltyper()
                 };
-                
+
                 tm.addRow(row);
             }
             jTable1.setModel(tm);
         } catch (SQLException e) {
             Logger.getLogger(this.getName()).log(Level.SEVERE, null, e.getMessage());
             JOptionPane.showMessageDialog(this, e.getMessage());
-        }   
+        }
     }
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

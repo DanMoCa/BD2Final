@@ -5,11 +5,15 @@
  */
 package bd2;
 
-import java.sql.Connection;
+import entidades.TIENDA;
+import entidades.TITULO;
+import entidades.VENTA;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -52,7 +56,7 @@ public class Sales extends javax.swing.JFrame {
         jTxtFldCantidad = new javax.swing.JTextField();
         jTxtFldTerminos = new javax.swing.JTextField();
         jTxtFldIdTitulo = new javax.swing.JTextField();
-        jDatePickerFechaOrden = new org.jdesktop.swingx.JXDatePicker();
+        jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -122,7 +126,7 @@ public class Sales extends javax.swing.JFrame {
                             .addComponent(jTxtFldCantidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jTxtFldTerminos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jTxtFldIdTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jDatePickerFechaOrden, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jXDatePicker1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -141,7 +145,7 @@ public class Sales extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jDatePickerFechaOrden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -157,34 +161,47 @@ public class Sales extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        String formats = "yyyy-MM-dd";
+
+        this.jXDatePicker1.setFormats(formats);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-        this.jTxtFldIdTienda.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 0));
-        this.jTxtfldNumOrden.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 1));
-        this.jDatePickerFechaOrden.setDate((Date)jTable1.getValueAt(jTable1.getSelectedRow(), 2));
-        this.jTxtFldCantidad.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 3));
-        this.jTxtFldTerminos.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 4));
-        this.jTxtFldIdTitulo.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 5));
+        VENTA x = (VENTA) jTable1.getValueAt(jTable1.getSelectedRow(), 1);
+        TIENDA ti = (TIENDA) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
+        TITULO tit = (TITULO)jTable1.getValueAt(jTable1.getSelectedRow(), 5);
+
+        try {
+            this.jTxtFldIdTienda.setText((ti != null) ? ti + "" : "");
+            this.jTxtfldNumOrden.setText(((x.getOrdNum()) != null) ? x.getOrdNum() + "" : "");
+            this.jXDatePicker1.setDate(x.getOrdDate());
+            this.jTxtFldCantidad.setText(((x.getQty()) != null) ? x.getQty() + "" : "");
+            this.jTxtFldTerminos.setText(((x.getPayterms()) != null) ? x.getPayterms() + "" : "");
+            this.jTxtFldIdTitulo.setText((tit != null) ? tit + "" : "");
+        } catch (SQLException ex) {
+            Logger.getLogger(Discounts.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
     }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
      */
-    
-    public void loadSales(){
+    public void loadSales() {
         try {
             OracleConnection conn = (OracleConnection) Conexion.GetConnection();
             Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery("SELECT value(a) FROM ventas a");
-            
+            Map map = (Map) conn.getTypeMap();
+            map.put(VENTA._SQL_NAME, VENTA.class);
+
             String[] columns = {
-                "Id Tienda","Numero de Orden","Fecha de Orden","Cantidad","Terminos de Pago","ID Titulo"
+                "Id Tienda", "Numero de Orden", "Fecha de Orden", "Cantidad", "Terminos de Pago", "ID Titulo"
             };
-            
-            
+
             DefaultTableModel tm = new DefaultTableModel(null, columns) {
                 @Override
                 public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -192,24 +209,33 @@ public class Sales extends javax.swing.JFrame {
                 }
             };
 
+            ResultSet rs = st.executeQuery("SELECT value(a) FROM ventas a");
             while (rs.next()) {
-                oracle.sql.STRUCT eddy = (oracle.sql.STRUCT) rs.getObject(1);
-                Object[] objValues = eddy.getAttributes();
-                
-                /* BigDecimal to String */
-                java.math.BigDecimal cantidad = (java.math.BigDecimal)objValues[3];
-                String strCantidad = cantidad.toString();
-                
-                
-                /* Date to String */
-                java.sql.Timestamp ts = (java.sql.Timestamp) objValues[2];
-                String strTS = ts.toString();
-                
-                
-                String[] row = {
-                    (String)objValues[0],(String)objValues[1],strTS,strCantidad,(String)objValues[4],(String)objValues[5]
+                VENTA p = (VENTA) rs.getObject(1);
+
+                TIENDA t = null;
+                try {
+                    t = p.getRefStore().getValue();
+                } catch (SQLException e) {
+                    t = null;
+                }
+
+                TITULO x = null;
+                try {
+                    x = p.getRefTitle().getValue();
+                } catch (SQLException e) {
+                    x = null;
+                }
+
+                Date dateMeSenpai = new Date();
+                dateMeSenpai.setTime(p.getOrdDate().getTime());
+                SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+                String date = DATE_FORMAT.format(dateMeSenpai);
+
+                Object[] row = {
+                    t, p, date, p.getQty(), p.getPayterms(), x
                 };
-                
+
                 tm.addRow(row);
             }
             jTable1.setModel(tm);
@@ -218,7 +244,7 @@ public class Sales extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -252,7 +278,6 @@ public class Sales extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private org.jdesktop.swingx.JXDatePicker jDatePickerFechaOrden;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -266,5 +291,6 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JTextField jTxtFldIdTitulo;
     private javax.swing.JTextField jTxtFldTerminos;
     private javax.swing.JTextField jTxtfldNumOrden;
+    private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
     // End of variables declaration//GEN-END:variables
 }

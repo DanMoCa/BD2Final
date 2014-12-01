@@ -1,9 +1,11 @@
 /*@lineinfo:filename=PUESTO*//*@lineinfo:user-code*//*@lineinfo:1^1*/
 
-package corp;
+package entidades;
 
 import java.sql.SQLException;
 import java.sql.Connection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import oracle.jdbc.OracleTypes;
 import oracle.sql.ORAData;
 import oracle.sql.ORADataFactory;
@@ -17,6 +19,16 @@ public class PUESTO implements ORAData, ORADataFactory {
 
     public static final String _SQL_NAME = "PUBS.PUESTO";
     public static final int _SQL_TYPECODE = OracleTypes.STRUCT;
+
+    @Override
+    public String toString() {
+        try {
+            return getJobId()+"";
+        } catch (SQLException ex) {
+            Logger.getLogger(PUESTO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 
     /* connection management */
     protected Connection __onn = null;
@@ -233,7 +245,7 @@ public class PUESTO implements ORAData, ORADataFactory {
                 sqlj.runtime.ExecutionContext.OracleContext __sJT_ec = ((__sJT_cc.getExecutionContext() == null) ? sqlj.runtime.ExecutionContext.raiseNullExecCtx() : __sJT_cc.getExecutionContext().getOracleContext());
                 try {
                     String theSqlTS = "BEGIN\n       :1  .BORRAR();\n      END;";
-                    __sJT_st = __sJT_ec.prepareOracleCall(__sJT_cc, "0corp.PUESTO", theSqlTS);
+                    __sJT_st = __sJT_ec.prepareOracleCall(__sJT_cc, "0entidades.PUESTO", theSqlTS);
                     if (__sJT_ec.isNew()) {
                         __sJT_st.registerOutParameter(1, 2002, "PUBS.PUESTO");
                     }
@@ -246,7 +258,7 @@ public class PUESTO implements ORAData, ORADataFactory {
                     // execute statement
                     __sJT_ec.oracleExecuteUpdate();
                     // retrieve OUT parameters
-                    __jPt_temp = (corp.PUESTO) __sJT_st.getORAData(1, corp.PUESTO.getORADataFactory());
+                    __jPt_temp = (entidades.PUESTO) __sJT_st.getORAData(1, entidades.PUESTO.getORADataFactory());
                 } finally {
                     __sJT_ec.oracleClose();
                 }
@@ -283,7 +295,7 @@ public class PUESTO implements ORAData, ORADataFactory {
                     sqlj.runtime.ExecutionContext.OracleContext __sJT_ec = ((__sJT_cc.getExecutionContext() == null) ? sqlj.runtime.ExecutionContext.raiseNullExecCtx() : __sJT_cc.getExecutionContext().getOracleContext());
                     try {
                         String theSqlTS = "BEGIN\n       :1  .BORRAR();\n      END;";
-                        __sJT_st = __sJT_ec.prepareOracleCall(__sJT_cc, "1corp.PUESTO", theSqlTS);
+                        __sJT_st = __sJT_ec.prepareOracleCall(__sJT_cc, "1entidades.PUESTO", theSqlTS);
                         if (__sJT_ec.isNew()) {
                             __sJT_st.registerOutParameter(1, 2002, "PUBS.PUESTO");
                         }
@@ -296,7 +308,7 @@ public class PUESTO implements ORAData, ORADataFactory {
                         // execute statement
                         __sJT_ec.oracleExecuteUpdate();
                         // retrieve OUT parameters
-                        __jPt_temp = (corp.PUESTO) __sJT_st.getORAData(1, corp.PUESTO.getORADataFactory());
+                        __jPt_temp = (entidades.PUESTO) __sJT_st.getORAData(1, entidades.PUESTO.getORADataFactory());
                     } finally {
                         __sJT_ec.oracleClose();
                     }
@@ -338,7 +350,7 @@ public class PUESTO implements ORAData, ORADataFactory {
                 sqlj.runtime.ExecutionContext.OracleContext __sJT_ec = ((__sJT_cc.getExecutionContext() == null) ? sqlj.runtime.ExecutionContext.raiseNullExecCtx() : __sJT_cc.getExecutionContext().getOracleContext());
                 try {
                     String theSqlTS = "BEGIN :1 := PUBS.PUESTO.BUSCAR(\n       :2  )  \n; END;";
-                    __sJT_st = __sJT_ec.prepareOracleCall(__sJT_cc, "2corp.PUESTO", theSqlTS);
+                    __sJT_st = __sJT_ec.prepareOracleCall(__sJT_cc, "2entidades.PUESTO", theSqlTS);
                     if (__sJT_ec.isNew()) {
                         __sJT_st.registerOutParameter(1, 2002, "PUBS.PUESTO");
                     }
@@ -347,7 +359,7 @@ public class PUESTO implements ORAData, ORADataFactory {
                     // execute statement
                     __sJT_ec.oracleExecuteUpdate();
                     // retrieve OUT parameters
-                    __jPt_result = (corp.PUESTO) __sJT_st.getORAData(1, corp.PUESTO.getORADataFactory());
+                    __jPt_result = (entidades.PUESTO) __sJT_st.getORAData(1, entidades.PUESTO.getORADataFactory());
                 } finally {
                     __sJT_ec.oracleClose();
                 }
@@ -380,7 +392,7 @@ public class PUESTO implements ORAData, ORADataFactory {
                     sqlj.runtime.ExecutionContext.OracleContext __sJT_ec = ((__sJT_cc.getExecutionContext() == null) ? sqlj.runtime.ExecutionContext.raiseNullExecCtx() : __sJT_cc.getExecutionContext().getOracleContext());
                     try {
                         String theSqlTS = "BEGIN :1 := PUBS.PUESTO.BUSCAR(\n       :2  )  \n; END;";
-                        __sJT_st = __sJT_ec.prepareOracleCall(__sJT_cc, "3corp.PUESTO", theSqlTS);
+                        __sJT_st = __sJT_ec.prepareOracleCall(__sJT_cc, "3entidades.PUESTO", theSqlTS);
                         if (__sJT_ec.isNew()) {
                             __sJT_st.registerOutParameter(1, 2002, "PUBS.PUESTO");
                         }
@@ -389,7 +401,7 @@ public class PUESTO implements ORAData, ORADataFactory {
                         // execute statement
                         __sJT_ec.oracleExecuteUpdate();
                         // retrieve OUT parameters
-                        __jPt_result = (corp.PUESTO) __sJT_st.getORAData(1, corp.PUESTO.getORADataFactory());
+                        __jPt_result = (entidades.PUESTO) __sJT_st.getORAData(1, entidades.PUESTO.getORADataFactory());
                     } finally {
                         __sJT_ec.oracleClose();
                     }
@@ -409,11 +421,116 @@ public class PUESTO implements ORAData, ORADataFactory {
         return __jPt_result;
     }
 
+    public PUESTORef getref()
+            throws java.sql.SQLException {
+        PUESTO __jPt_temp = (PUESTO) this;
+        PUESTORef __jPt_result;
+        try {
+            /*@lineinfo:generated-code*//*@lineinfo:204^5*/
+
+//  ************************************************************
+//  #sql [getConnectionContext()] { BEGIN
+//        :__jPt_result := :__jPt_temp.GETREF();
+//        END;
+//       };
+//  ************************************************************
+
+            {
+                // declare temps
+                oracle.jdbc.OracleCallableStatement __sJT_st = null;
+                sqlj.runtime.ref.DefaultContext __sJT_cc = getConnectionContext();
+                if (__sJT_cc == null) {
+                    sqlj.runtime.error.RuntimeRefErrors.raise_NULL_CONN_CTX();
+                }
+                sqlj.runtime.ExecutionContext.OracleContext __sJT_ec = ((__sJT_cc.getExecutionContext() == null) ? sqlj.runtime.ExecutionContext.raiseNullExecCtx() : __sJT_cc.getExecutionContext().getOracleContext());
+                try {
+                    String theSqlTS = "BEGIN\n       :1   :=  :2  .GETREF();\n      END;";
+                    __sJT_st = __sJT_ec.prepareOracleCall(__sJT_cc, "4entidades.PUESTO", theSqlTS);
+                    if (__sJT_ec.isNew()) {
+                        __sJT_st.registerOutParameter(1, 2006, "PUBS.PUESTO");
+                    }
+                    // set IN parameters
+                    if (__jPt_temp == null) {
+                        __sJT_st.setNull(2, 2002, "PUBS.PUESTO");
+                    } else {
+                        __sJT_st.setORAData(2, __jPt_temp);
+                    }
+                    // execute statement
+                    __sJT_ec.oracleExecuteUpdate();
+                    // retrieve OUT parameters
+                    __jPt_result = (entidades.PUESTORef) __sJT_st.getORAData(1, entidades.PUESTORef.getORADataFactory());
+                } finally {
+                    __sJT_ec.oracleClose();
+                }
+            }
+
+//  ************************************************************
+
+            /*@lineinfo:user-code*//*@lineinfo:208^5*/
+        } catch (java.sql.SQLException _err) {
+            try {
+                getConnectionContext().getExecutionContext().close();
+                closeConnection();
+                if (__dataSource == null) {
+                    throw _err;
+                }
+                /*@lineinfo:generated-code*//*@lineinfo:214^5*/
+
+//  ************************************************************
+//  #sql [getConnectionContext()] { BEGIN
+//        :__jPt_result := :__jPt_temp.GETREF();
+//        END;
+//       };
+//  ************************************************************
+
+                {
+                    // declare temps
+                    oracle.jdbc.OracleCallableStatement __sJT_st = null;
+                    sqlj.runtime.ref.DefaultContext __sJT_cc = getConnectionContext();
+                    if (__sJT_cc == null) {
+                        sqlj.runtime.error.RuntimeRefErrors.raise_NULL_CONN_CTX();
+                    }
+                    sqlj.runtime.ExecutionContext.OracleContext __sJT_ec = ((__sJT_cc.getExecutionContext() == null) ? sqlj.runtime.ExecutionContext.raiseNullExecCtx() : __sJT_cc.getExecutionContext().getOracleContext());
+                    try {
+                        String theSqlTS = "BEGIN\n       :1   :=  :2  .GETREF();\n      END;";
+                        __sJT_st = __sJT_ec.prepareOracleCall(__sJT_cc, "5entidades.PUESTO", theSqlTS);
+                        if (__sJT_ec.isNew()) {
+                            __sJT_st.registerOutParameter(1, 2006, "PUBS.PUESTO");
+                        }
+                        // set IN parameters
+                        if (__jPt_temp == null) {
+                            __sJT_st.setNull(2, 2002, "PUBS.PUESTO");
+                        } else {
+                            __sJT_st.setORAData(2, __jPt_temp);
+                        }
+                        // execute statement
+                        __sJT_ec.oracleExecuteUpdate();
+                        // retrieve OUT parameters
+                        __jPt_result = (entidades.PUESTORef) __sJT_st.getORAData(1, entidades.PUESTORef.getORADataFactory());
+                    } finally {
+                        __sJT_ec.oracleClose();
+                    }
+                }
+
+//  ************************************************************
+
+                /*@lineinfo:user-code*//*@lineinfo:218^5*/
+            } catch (java.sql.SQLException _err2) {
+                try {
+                    getConnectionContext().getExecutionContext().close();
+                } catch (java.sql.SQLException _sqle) {
+                }
+                throw _err;
+            }
+        }
+        return __jPt_result;
+    }
+
     public PUESTO guardar()
             throws java.sql.SQLException {
         try {
             PUESTO __jPt_temp = this;
-            /*@lineinfo:generated-code*//*@lineinfo:203^5*/
+            /*@lineinfo:generated-code*//*@lineinfo:232^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] { BEGIN
@@ -432,7 +549,7 @@ public class PUESTO implements ORAData, ORADataFactory {
                 sqlj.runtime.ExecutionContext.OracleContext __sJT_ec = ((__sJT_cc.getExecutionContext() == null) ? sqlj.runtime.ExecutionContext.raiseNullExecCtx() : __sJT_cc.getExecutionContext().getOracleContext());
                 try {
                     String theSqlTS = "BEGIN\n       :1  .GUARDAR();\n      END;";
-                    __sJT_st = __sJT_ec.prepareOracleCall(__sJT_cc, "4corp.PUESTO", theSqlTS);
+                    __sJT_st = __sJT_ec.prepareOracleCall(__sJT_cc, "6entidades.PUESTO", theSqlTS);
                     if (__sJT_ec.isNew()) {
                         __sJT_st.registerOutParameter(1, 2002, "PUBS.PUESTO");
                     }
@@ -445,7 +562,7 @@ public class PUESTO implements ORAData, ORADataFactory {
                     // execute statement
                     __sJT_ec.oracleExecuteUpdate();
                     // retrieve OUT parameters
-                    __jPt_temp = (corp.PUESTO) __sJT_st.getORAData(1, corp.PUESTO.getORADataFactory());
+                    __jPt_temp = (entidades.PUESTO) __sJT_st.getORAData(1, entidades.PUESTO.getORADataFactory());
                 } finally {
                     __sJT_ec.oracleClose();
                 }
@@ -453,7 +570,7 @@ public class PUESTO implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-            /*@lineinfo:user-code*//*@lineinfo:207^5*/
+            /*@lineinfo:user-code*//*@lineinfo:236^5*/
             return __jPt_temp;
         } catch (java.sql.SQLException _err) {
             try {
@@ -463,7 +580,7 @@ public class PUESTO implements ORAData, ORADataFactory {
                     throw _err;
                 }
                 PUESTO __jPt_temp = this;
-                /*@lineinfo:generated-code*//*@lineinfo:215^5*/
+                /*@lineinfo:generated-code*//*@lineinfo:244^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] { BEGIN
@@ -482,7 +599,7 @@ public class PUESTO implements ORAData, ORADataFactory {
                     sqlj.runtime.ExecutionContext.OracleContext __sJT_ec = ((__sJT_cc.getExecutionContext() == null) ? sqlj.runtime.ExecutionContext.raiseNullExecCtx() : __sJT_cc.getExecutionContext().getOracleContext());
                     try {
                         String theSqlTS = "BEGIN\n       :1  .GUARDAR();\n      END;";
-                        __sJT_st = __sJT_ec.prepareOracleCall(__sJT_cc, "5corp.PUESTO", theSqlTS);
+                        __sJT_st = __sJT_ec.prepareOracleCall(__sJT_cc, "7entidades.PUESTO", theSqlTS);
                         if (__sJT_ec.isNew()) {
                             __sJT_st.registerOutParameter(1, 2002, "PUBS.PUESTO");
                         }
@@ -495,7 +612,7 @@ public class PUESTO implements ORAData, ORADataFactory {
                         // execute statement
                         __sJT_ec.oracleExecuteUpdate();
                         // retrieve OUT parameters
-                        __jPt_temp = (corp.PUESTO) __sJT_st.getORAData(1, corp.PUESTO.getORADataFactory());
+                        __jPt_temp = (entidades.PUESTO) __sJT_st.getORAData(1, entidades.PUESTO.getORADataFactory());
                     } finally {
                         __sJT_ec.oracleClose();
                     }
@@ -503,7 +620,7 @@ public class PUESTO implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-                /*@lineinfo:user-code*//*@lineinfo:219^5*/
+                /*@lineinfo:user-code*//*@lineinfo:248^5*/
                 return __jPt_temp;
             } catch (java.sql.SQLException _err2) {
                 try {
@@ -525,7 +642,7 @@ public class PUESTO implements ORAData, ORADataFactory {
         PUESTO __jPt_temp = (PUESTO) this;
         PUESTO __jPt_result;
         try {
-            /*@lineinfo:generated-code*//*@lineinfo:239^5*/
+            /*@lineinfo:generated-code*//*@lineinfo:268^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] { BEGIN
@@ -548,7 +665,7 @@ public class PUESTO implements ORAData, ORADataFactory {
                 sqlj.runtime.ExecutionContext.OracleContext __sJT_ec = ((__sJT_cc.getExecutionContext() == null) ? sqlj.runtime.ExecutionContext.raiseNullExecCtx() : __sJT_cc.getExecutionContext().getOracleContext());
                 try {
                     String theSqlTS = "BEGIN\n       :1   := PUESTO(\n       :2  ,\n       :3  ,\n       :4  ,\n       :5  );\n      END;";
-                    __sJT_st = __sJT_ec.prepareOracleCall(__sJT_cc, "6corp.PUESTO", theSqlTS);
+                    __sJT_st = __sJT_ec.prepareOracleCall(__sJT_cc, "8entidades.PUESTO", theSqlTS);
                     if (__sJT_ec.isNew()) {
                         __sJT_st.registerOutParameter(1, 2002, "PUBS.PUESTO");
                     }
@@ -560,7 +677,7 @@ public class PUESTO implements ORAData, ORADataFactory {
                     // execute statement
                     __sJT_ec.oracleExecuteUpdate();
                     // retrieve OUT parameters
-                    __jPt_result = (corp.PUESTO) __sJT_st.getORAData(1, corp.PUESTO.getORADataFactory());
+                    __jPt_result = (entidades.PUESTO) __sJT_st.getORAData(1, entidades.PUESTO.getORADataFactory());
                 } finally {
                     __sJT_ec.oracleClose();
                 }
@@ -568,7 +685,7 @@ public class PUESTO implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-            /*@lineinfo:user-code*//*@lineinfo:247^5*/
+            /*@lineinfo:user-code*//*@lineinfo:276^5*/
             __jPt_out[0] = __jPt_temp;
         } catch (java.sql.SQLException _err) {
             try {
@@ -577,7 +694,7 @@ public class PUESTO implements ORAData, ORADataFactory {
                 if (__dataSource == null) {
                     throw _err;
                 }
-                /*@lineinfo:generated-code*//*@lineinfo:254^5*/
+                /*@lineinfo:generated-code*//*@lineinfo:283^5*/
 
 //  ************************************************************
 //  #sql [getConnectionContext()] { BEGIN
@@ -600,7 +717,7 @@ public class PUESTO implements ORAData, ORADataFactory {
                     sqlj.runtime.ExecutionContext.OracleContext __sJT_ec = ((__sJT_cc.getExecutionContext() == null) ? sqlj.runtime.ExecutionContext.raiseNullExecCtx() : __sJT_cc.getExecutionContext().getOracleContext());
                     try {
                         String theSqlTS = "BEGIN\n       :1   := PUESTO(\n       :2  ,\n       :3  ,\n       :4  ,\n       :5  );\n      END;";
-                        __sJT_st = __sJT_ec.prepareOracleCall(__sJT_cc, "7corp.PUESTO", theSqlTS);
+                        __sJT_st = __sJT_ec.prepareOracleCall(__sJT_cc, "9entidades.PUESTO", theSqlTS);
                         if (__sJT_ec.isNew()) {
                             __sJT_st.registerOutParameter(1, 2002, "PUBS.PUESTO");
                         }
@@ -612,7 +729,7 @@ public class PUESTO implements ORAData, ORADataFactory {
                         // execute statement
                         __sJT_ec.oracleExecuteUpdate();
                         // retrieve OUT parameters
-                        __jPt_result = (corp.PUESTO) __sJT_st.getORAData(1, corp.PUESTO.getORADataFactory());
+                        __jPt_result = (entidades.PUESTO) __sJT_st.getORAData(1, entidades.PUESTO.getORADataFactory());
                     } finally {
                         __sJT_ec.oracleClose();
                     }
@@ -620,7 +737,7 @@ public class PUESTO implements ORAData, ORADataFactory {
 
 //  ************************************************************
 
-                /*@lineinfo:user-code*//*@lineinfo:262^5*/
+                /*@lineinfo:user-code*//*@lineinfo:291^5*/
                 __jPt_out[0] = __jPt_temp;
             } catch (java.sql.SQLException _err2) {
                 try {

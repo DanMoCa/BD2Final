@@ -5,15 +5,18 @@
  */
 package bd2;
 
-import java.sql.Connection;
+import entidades.AUTOR;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import oracle.jdbc.driver.OracleConnection;
+import sqlj.runtime.ref.DefaultContext;
 
 /**
  *
@@ -133,7 +136,7 @@ public class Authors extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 962, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(19, 19, 19)
@@ -215,31 +218,38 @@ public class Authors extends javax.swing.JFrame {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-        this.jTxtfldIdAutor.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 0));
-        this.jTxtFldApellido.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 1));
-        this.jTxtFldNombre.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 2));
-        this.jTxtFldTelefono.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 3));
-        this.jTxtFldDireccion.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 4));
-        this.jTxtFldCiudad.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 5));
-        this.jTxtFldEstado.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 6));
-        this.jTxtFldCodigoPostal.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 7));
-        this.jTxtFldContrato.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 8));
+        AUTOR x;
+        x = (AUTOR) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
+        try {
+            this.jTxtfldIdAutor.setText(((x.getAuId()) != null) ? x.getAuId() + "" : "");
+            this.jTxtFldApellido.setText(((x.getAuLname()) != null) ? x.getAuLname() + "" : "");
+            this.jTxtFldNombre.setText(((x.getAuFname()) != null) ? x.getAuFname() + "" : "");
+            this.jTxtFldTelefono.setText(((x.getPhone()) != null) ? x.getPhone() + "" : "");
+            this.jTxtFldDireccion.setText(((x.getAddress()) != null) ? x.getAddress() + "" : "");
+            this.jTxtFldCiudad.setText(((x.getCity()) != null) ? x.getCity() + "" : "");
+            this.jTxtFldEstado.setText(((x.getState()) != null) ? x.getState() + "" : "");
+            this.jTxtFldCodigoPostal.setText(((x.getZip()) != null) ? x.getZip() + "" : "");
+            this.jTxtFldContrato.setText(((x.getContract()) != null) ? x.getContract() + "" : "");
+        } catch (SQLException ex) {
+            Logger.getLogger(Authors.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
      */
-    
-    public void loadAuthors(){
+    public void loadAuthors() {
         try {
             OracleConnection conn = (OracleConnection) Conexion.GetConnection();
             Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery("SELECT value(a) FROM autores a");
-            
+            Map map = (Map) conn.getTypeMap();
+            map.put(AUTOR._SQL_NAME, AUTOR.class);
+
             String[] columns = {
-                "ID Autor","Apellido","Nombre","Telefono","Dirección","Ciudad","Estado","Codigo Postal","Contrato"
+                "ID Autor", "Apellido", "Nombre", "Telefono", "Dirección", "Ciudad", "Estado", "Codigo Postal", "Contrato"
             };
-            
+
             //8 columnas
             DefaultTableModel tm = new DefaultTableModel(null, columns) {
                 @Override
@@ -248,22 +258,14 @@ public class Authors extends javax.swing.JFrame {
                 }
             };
 
+            DefaultContext dc = new DefaultContext(conn);
+            ResultSet rs = st.executeQuery("SELECT value(a) FROM autores a ORDER BY a.au_id");
+
             while (rs.next()) {
-                oracle.sql.STRUCT eddy = (oracle.sql.STRUCT) rs.getObject(1);
-                Object[] objValues = eddy.getAttributes();
-                
-                /* BigDecimal to String */
-                java.math.BigDecimal contract = (java.math.BigDecimal)objValues[8];
-                String strContract = contract.toString();
-                
-                
-                /* Date to String 
-                java.sql.Timestamp ts = (java.sql.Timestamp) objValues[7];
-                String strTS = ts.toString();
-                */
-                
-                String[] row = {
-                    (String)objValues[0],(String)objValues[1],(String)objValues[2],(String)objValues[3],(String)objValues[4],(String)objValues[5],(String)objValues[6],(String)objValues[7],strContract
+                AUTOR p = (AUTOR) rs.getObject(1);
+
+                Object[] row = {
+                    p, p.getAuLname(), p.getAuFname(), p.getPhone(), p.getAddress(), p.getCity(), p.getState(), p.getZip(), p.getContract().toString()   
                 };
                 
                 tm.addRow(row);
@@ -274,6 +276,7 @@ public class Authors extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

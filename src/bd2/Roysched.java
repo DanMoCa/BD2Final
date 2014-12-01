@@ -5,10 +5,12 @@
  */
 package bd2;
 
-import java.sql.Connection;
+import entidades.ESQ_REGALIA;
+import entidades.TITULO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -40,14 +42,14 @@ public class Roysched extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jTxtFldIdTitulo = new javax.swing.JTextField();
         jTxtFldRangoBajo = new javax.swing.JTextField();
         jTxtFldRangoAlto = new javax.swing.JTextField();
         jTxtFldRegalias = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -69,21 +71,13 @@ public class Roysched extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jLabel1.setText("ID Titulo");
+        jLabel5.setText("ID Titulo");
 
-        jLabel2.setText("Rango Bajo");
+        jLabel6.setText("Rango Bajo");
 
-        jLabel3.setText("Rango Alto");
+        jLabel7.setText("Rango Alto");
 
-        jLabel4.setText("Regalias");
-
-        jLabel1.setText("jLabel1");
-
-        jLabel2.setText("jLabel2");
-
-        jLabel3.setText("jLabel3");
-
-        jLabel4.setText("jLabel4");
+        jLabel8.setText("Regalias");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -94,12 +88,12 @@ public class Roysched extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTxtFldIdTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
@@ -115,20 +109,20 @@ public class Roysched extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTxtFldIdTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTxtFldIdTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTxtFldRangoBajo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTxtFldRangoBajo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTxtFldRangoAlto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTxtFldRangoAlto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTxtFldRegalias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTxtFldRegalias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -137,27 +131,33 @@ public class Roysched extends javax.swing.JFrame {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-        this.jTxtFldIdTitulo.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 0));
-        this.jTxtFldRangoBajo.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 1));
-        this.jTxtFldRangoAlto.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 2));
-        this.jTxtFldRegalias.setText((String)jTable1.getValueAt(jTable1.getSelectedRow(), 3));
+        ESQ_REGALIA x = (ESQ_REGALIA) jTable1.getValueAt(jTable1.getSelectedRow(), 2);
+        TITULO t = (TITULO) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
+
+        this.jTxtFldIdTitulo.setText((t != null) ? t + "" : "");
+        try {
+            this.jTxtFldRangoBajo.setText(((x.getLorange()) != null) ? x.getLorange() + "" : "");
+            this.jTxtFldRangoAlto.setText(((x.getHirange()) != null) ? x.getHirange() + "" : "");
+            this.jTxtFldRegalias.setText(((x.getRoyalty()) != null) ? x.getRoyalty() + "" : "");
+        } catch (SQLException ex) {
+            Logger.getLogger(Roysched.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
      */
-    
-    public void loadRoySched(){
+    public void loadRoySched() {
         try {
             OracleConnection conn = (OracleConnection) Conexion.GetConnection();
             Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery("SELECT value(a) FROM esq_regalias a");
-            
+            Map map = (Map) conn.getTypeMap();
+            map.put(ESQ_REGALIA._SQL_NAME, ESQ_REGALIA.class);
+
             String[] columns = {
-                "ID Titulo","Rango Bajo","Rango Alto","Regalias"
+                "ID Titulo", "Rango Bajo", "Rango Alto", "Regalias"
             };
-            
-            
+
             DefaultTableModel tm = new DefaultTableModel(null, columns) {
                 @Override
                 public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -165,37 +165,31 @@ public class Roysched extends javax.swing.JFrame {
                 }
             };
 
+            ResultSet rs = st.executeQuery("SELECT value(a) FROM esq_regalias a");
+
             while (rs.next()) {
-                oracle.sql.STRUCT eddy = (oracle.sql.STRUCT) rs.getObject(1);
-                Object[] objValues = eddy.getAttributes();
-                
-                /* BigDecimal to String */
-                java.math.BigDecimal loRange = (java.math.BigDecimal)objValues[1];
-                java.math.BigDecimal hiRange = (java.math.BigDecimal)objValues[2];
-                java.math.BigDecimal regalias = (java.math.BigDecimal)objValues[3];
-                
-                String strLoRange = loRange.toString();
-                String strHiRange = hiRange.toString(); 
-                String strRegalias = regalias.toString();
-                
-                /* Date to String 
-                java.sql.Timestamp ts = (java.sql.Timestamp) objValues[9];
-                String strTS = ts.toString(); */
-                
-                
-                String[] row = {
-                    (String)objValues[0],strLoRange,strHiRange,strRegalias
+                ESQ_REGALIA p = (ESQ_REGALIA) rs.getObject(1);
+
+                TITULO t = null;
+                try {
+                    t = p.getRefTitle().getValue();
+                } catch (SQLException e) {
+                    t = null;
+                }
+
+                Object[] row = {
+                    t, p.getLorange(), p, p.getRoyalty()
                 };
-                
+
                 tm.addRow(row);
             }
             jTable1.setModel(tm);
         } catch (SQLException e) {
             Logger.getLogger(this.getName()).log(Level.SEVERE, null, e.getMessage());
             JOptionPane.showMessageDialog(this, e.getMessage());
-        }  
+        }
     }
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -229,10 +223,10 @@ public class Roysched extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTxtFldIdTitulo;
