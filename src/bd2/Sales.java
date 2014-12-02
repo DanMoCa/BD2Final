@@ -35,6 +35,7 @@ public class Sales extends javax.swing.JFrame {
      * Creates new form Sales
      */
     public Sales() {
+
         initComponents();
         //loadSales();
         fillComboTienda();
@@ -90,7 +91,7 @@ public class Sales extends javax.swing.JFrame {
         menuDescuentos = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Sistema de ventas de libros");
+        setTitle("( ͡° ͜ʖ ͡°) - Sistema de ventas de libros");
         setResizable(false);
 
         jTOrdenes.setModel(new javax.swing.table.DefaultTableModel(
@@ -405,7 +406,7 @@ public class Sales extends javax.swing.JFrame {
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 647, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 646, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -424,6 +425,7 @@ public class Sales extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTOrdenesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTOrdenesMouseClicked
@@ -434,7 +436,7 @@ public class Sales extends javax.swing.JFrame {
             loadSale(v);
             viendoVentas = false;
             habilitarOrden(false);
-            
+
         } else {
             loadTitleSale();
         }
@@ -473,16 +475,16 @@ public class Sales extends javax.swing.JFrame {
             Map map = conn.getTypeMap();
             map.put(VENTA._SQL_NAME, VENTA.class);
             DefaultContext dc = new DefaultContext(conn);
-            
+
             VENTA venta = (VENTA) jTOrdenes.getValueAt(jTOrdenes.getSelectedRow(), 0);
             venta.setConnectionContext(dc);
-            
+
             TITULO tit = (TITULO) cbxLibro.getSelectedItem();
             tit.setConnectionContext(dc);
-            
+
             venta.setRefTitle(tit.getref());
             venta.setQty(new BigDecimal(txtQty.getText()));
-            
+
             venta.guardar();
             loadSale(venta);
             txtQty.setText("");
@@ -528,18 +530,18 @@ public class Sales extends javax.swing.JFrame {
             Map map = conn.getTypeMap();
             map.put(VENTA._SQL_NAME, VENTA.class);
             DefaultContext dc = new DefaultContext(conn);
-            
+
             VENTA venta = (VENTA) jTOrdenes.getValueAt(jTOrdenes.getSelectedRow(), 0);
             venta.setConnectionContext(dc);
-            
+
             venta.borrar();
             loadSale(venta);
             txtQty.setText("");
             cbxLibro.setSelectedIndex(0);
-            if (jTOrdenes.getRowCount() == 0 ){
-                if (JOptionPane.showOptionDialog(this, 
-                        "Ya no existen titulos en la venta, ¿deseas hacer una nueva o continuar?","Hola",
-                        JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Nueva","Continuar"},null)==0){
+            if (jTOrdenes.getRowCount() == 0) {
+                if (JOptionPane.showOptionDialog(this,
+                        "Ya no existen titulos en la venta, ¿deseas hacer una nueva o continuar?", "Hola",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Nueva", "Continuar"}, null) == 0) {
                     clearFields();
                     habilitarOrden(true);
                 }
@@ -604,7 +606,7 @@ public class Sales extends javax.swing.JFrame {
 
             venta.guardar();
             loadSale(venta);
-            
+
             txtQty.setText("");
             cbxLibro.setSelectedIndex(0);
             habilitarOrden(false);
@@ -877,6 +879,12 @@ public class Sales extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                try {
+                    Thread.sleep(4500);
+                } catch (Exception e) {
+                    
+                }
+
                 new Sales().setVisible(true);
             }
         });
@@ -923,18 +931,18 @@ public class Sales extends javax.swing.JFrame {
         }
     }
 
-    private void habilitarOrden(boolean habilitado){
+    private void habilitarOrden(boolean habilitado) {
         cbxTienda.setEnabled(habilitado);
         jXDatePicker1.setEnabled(habilitado);
         txtOrden.setEnabled(habilitado);
         txtPago.setEnabled(habilitado);
     }
-    
-    private void habilitarVentas(boolean habilitado){
+
+    private void habilitarVentas(boolean habilitado) {
         cbxLibro.setEnabled(habilitado);
         txtQty.setEnabled(habilitado);
     }
-    
+
     private void clearFields() {
         cbxLibro.setSelectedIndex(0);
         cbxTienda.setSelectedIndex(0);
