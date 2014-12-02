@@ -8,9 +8,11 @@ package bd2;
 import entidades.TIENDA;
 import entidades.TITULO;
 import entidades.VENTA;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
@@ -19,6 +21,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import oracle.jdbc.driver.OracleConnection;
+import sqlj.runtime.ref.DefaultContext;
 
 /**
  *
@@ -26,12 +29,16 @@ import oracle.jdbc.driver.OracleConnection;
  */
 public class Sales extends javax.swing.JFrame {
 
+    private boolean viendoVentas = false;
+
     /**
      * Creates new form Sales
      */
     public Sales() {
         initComponents();
-        loadSales();
+        //loadSales();
+        fillComboTienda();
+        fillComboTitulos();
     }
 
     /**
@@ -44,29 +51,49 @@ public class Sales extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTOrdenes = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jTxtFldIdTienda = new javax.swing.JTextField();
-        jTxtfldNumOrden = new javax.swing.JTextField();
-        jTxtFldCantidad = new javax.swing.JTextField();
-        jTxtFldTerminos = new javax.swing.JTextField();
-        jTxtFldIdTitulo = new javax.swing.JTextField();
+        txtOrden = new javax.swing.JTextField();
+        txtPago = new javax.swing.JTextField();
         jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        cbxTienda = new javax.swing.JComboBox();
+        lblTienda = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
+        txtQty = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        cbxLibro = new javax.swing.JComboBox();
+        lblTit = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnAgregarTitulo = new javax.swing.JButton();
+        btnEditarTitulo = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        menuNueva = new javax.swing.JMenu();
+        miNuevaOrden = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        verOrden = new javax.swing.JMenuItem();
+        verOrdenPorTienda = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        menuEditoriales = new javax.swing.JMenuItem();
+        menuPuestos = new javax.swing.JMenuItem();
+        menuEmpleados = new javax.swing.JMenuItem();
+        menuAutores = new javax.swing.JMenuItem();
+        menuTitulos = new javax.swing.JMenuItem();
+        menuTitsAuts = new javax.swing.JMenuItem();
+        menuTiendas = new javax.swing.JMenuItem();
+        menuDescuentos = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Sistema de ventas de libros");
         setResizable(false);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTOrdenes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -77,36 +104,25 @@ public class Sales extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTOrdenes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
+                jTOrdenesMouseClicked(evt);
             }
         });
-        jTable1.addKeyListener(new java.awt.event.KeyAdapter() {
+        jTOrdenes.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTable1KeyReleased(evt);
+                jTOrdenesKeyReleased(evt);
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTOrdenes);
 
         jLabel5.setText("Terminos de Pago");
 
-        jLabel6.setText("Id Titulo");
+        txtOrden.setMinimumSize(new java.awt.Dimension(6, 23));
+        txtOrden.setPreferredSize(new java.awt.Dimension(150, 23));
 
-        jTxtFldIdTienda.setMinimumSize(new java.awt.Dimension(6, 23));
-        jTxtFldIdTienda.setPreferredSize(new java.awt.Dimension(150, 23));
-
-        jTxtfldNumOrden.setMinimumSize(new java.awt.Dimension(6, 23));
-        jTxtfldNumOrden.setPreferredSize(new java.awt.Dimension(150, 23));
-
-        jTxtFldCantidad.setMinimumSize(new java.awt.Dimension(6, 23));
-        jTxtFldCantidad.setPreferredSize(new java.awt.Dimension(150, 23));
-
-        jTxtFldTerminos.setMinimumSize(new java.awt.Dimension(6, 23));
-        jTxtFldTerminos.setPreferredSize(new java.awt.Dimension(150, 23));
-
-        jTxtFldIdTitulo.setMinimumSize(new java.awt.Dimension(6, 23));
-        jTxtFldIdTitulo.setPreferredSize(new java.awt.Dimension(150, 23));
+        txtPago.setMinimumSize(new java.awt.Dimension(6, 23));
+        txtPago.setPreferredSize(new java.awt.Dimension(150, 23));
 
         jLabel1.setText("Id Tienda");
 
@@ -114,7 +130,13 @@ public class Sales extends javax.swing.JFrame {
 
         jLabel3.setText("Fecha de Orden");
 
-        jLabel4.setText("Cantidad");
+        cbxTienda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxTiendaActionPerformed(evt);
+            }
+        });
+
+        lblTienda.setText(" ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -126,18 +148,18 @@ public class Sales extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6))
+                    .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTxtFldIdTienda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTxtfldNumOrden, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTxtFldCantidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTxtFldTerminos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTxtFldIdTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jXDatePicker1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTienda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtOrden, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtPago, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jXDatePicker1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbxTienda, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,63 +167,232 @@ public class Sales extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTxtFldIdTienda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbxTienda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblTienda, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTxtfldNumOrden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtOrden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTxtFldCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jTxtFldTerminos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jTxtFldIdTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(txtPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         String formats = "yyyy-MM-dd";
 
         this.jXDatePicker1.setFormats(formats);
 
-        jButton1.setText("jButton1");
+        jLabel4.setText("Cantidad");
 
-        jButton2.setText("jButton2");
+        txtQty.setMinimumSize(new java.awt.Dimension(6, 23));
+        txtQty.setPreferredSize(new java.awt.Dimension(150, 23));
 
-        jButton3.setText("jButton3");
+        jLabel6.setText("Titulo");
+
+        cbxLibro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxLibroActionPerformed(evt);
+            }
+        });
+
+        lblTit.setText(" ");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtQty, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                            .addComponent(cbxLibro, 0, 135, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbxLibro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblTit, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtQty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addContainerGap())
+        );
+
+        btnAgregarTitulo.setText("Agregar");
+        btnAgregarTitulo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarTituloActionPerformed(evt);
+            }
+        });
+
+        btnEditarTitulo.setText("Editar");
+        btnEditarTitulo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarTituloActionPerformed(evt);
+            }
+        });
+
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap()
+                .addComponent(btnAgregarTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEditarTitulo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAgregarTitulo)
+                    .addComponent(btnEditarTitulo)
+                    .addComponent(btnEliminar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        menuNueva.setText("Nueva");
+
+        miNuevaOrden.setText("Venta");
+        miNuevaOrden.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miNuevaOrdenActionPerformed(evt);
+            }
+        });
+        menuNueva.add(miNuevaOrden);
+
+        jMenuBar1.add(menuNueva);
+
+        jMenu2.setText("Ver");
+
+        verOrden.setText("Orden...");
+        verOrden.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                verOrdenActionPerformed(evt);
+            }
+        });
+        jMenu2.add(verOrden);
+
+        verOrdenPorTienda.setText("Ordenes por tienda...");
+        verOrdenPorTienda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                verOrdenPorTiendaActionPerformed(evt);
+            }
+        });
+        jMenu2.add(verOrdenPorTienda);
+
+        jMenuItem1.setText("Todas las ordenes");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu2);
+
+        jMenu1.setText("Administrar");
+
+        menuEditoriales.setText("Editoriales...");
+        menuEditoriales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuEditorialesActionPerformed(evt);
+            }
+        });
+        jMenu1.add(menuEditoriales);
+
+        menuPuestos.setText("Puestos...");
+        menuPuestos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuPuestosActionPerformed(evt);
+            }
+        });
+        jMenu1.add(menuPuestos);
+
+        menuEmpleados.setText("Empleados...");
+        menuEmpleados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuEmpleadosActionPerformed(evt);
+            }
+        });
+        jMenu1.add(menuEmpleados);
+
+        menuAutores.setText("Autores...");
+        menuAutores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuAutoresActionPerformed(evt);
+            }
+        });
+        jMenu1.add(menuAutores);
+
+        menuTitulos.setText("Titulos...");
+        menuTitulos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuTitulosActionPerformed(evt);
+            }
+        });
+        jMenu1.add(menuTitulos);
+
+        menuTitsAuts.setText("Titulos-Autores...");
+        menuTitsAuts.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuTitsAutsActionPerformed(evt);
+            }
+        });
+        jMenu1.add(menuTitsAuts);
+
+        menuTiendas.setText("Tiendas...");
+        menuTiendas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuTiendasActionPerformed(evt);
+            }
+        });
+        jMenu1.add(menuTiendas);
+
+        menuDescuentos.setText("Descuentos...");
+        menuDescuentos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuDescuentosActionPerformed(evt);
+            }
+        });
+        jMenu1.add(menuDescuentos);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -209,62 +400,275 @@ public class Sales extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 647, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+    private void jTOrdenesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTOrdenesMouseClicked
         // TODO add your handling code here:
-        fillFields();
-    }//GEN-LAST:event_jTable1MouseClicked
+        //fillFields();
+        if (viendoVentas) {
+            VENTA v = (VENTA) jTOrdenes.getValueAt(jTOrdenes.getSelectedRow(), 1);
+            loadSale(v);
+            viendoVentas = false;
+            habilitarOrden(false);
+            
+        } else {
+            loadTitleSale();
+        }
+    }//GEN-LAST:event_jTOrdenesMouseClicked
 
-    private void jTable1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable1KeyReleased
+    private void jTOrdenesKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTOrdenesKeyReleased
         // TODO add your handling code here:
-        fillFields();
-    }//GEN-LAST:event_jTable1KeyReleased
+        //fillFields();
+    }//GEN-LAST:event_jTOrdenesKeyReleased
+
+    private void verOrdenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verOrdenActionPerformed
+        try {
+            OracleConnection conn = Conexion.GetConnection();
+            Statement st = conn.createStatement();
+            Map map = conn.getTypeMap();
+            map.put(VENTA._SQL_NAME, VENTA.class);
+            String ord = JOptionPane.showInputDialog("Ingresa el número de órden");
+            ResultSet rs = st.executeQuery("SELECT value(a) FROM ventas a "
+                    + "WHERE a.ord_num IN (SELECT distinct ord_num FROM ventas) "
+                    + "AND a.ord_num = upper('" + ord + "')");
+            rs.next();
+            VENTA v = (VENTA) rs.getObject(1);
+            loadSale(v);
+            viendoVentas = false;
+            habilitarOrden(false);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+            Logger.getLogger(Sales.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_verOrdenActionPerformed
+
+    private void btnEditarTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarTituloActionPerformed
+        try {
+            OracleConnection conn = Conexion.GetConnection();
+            Statement st = conn.createStatement();
+            Map map = conn.getTypeMap();
+            map.put(VENTA._SQL_NAME, VENTA.class);
+            DefaultContext dc = new DefaultContext(conn);
+            
+            VENTA venta = (VENTA) jTOrdenes.getValueAt(jTOrdenes.getSelectedRow(), 0);
+            venta.setConnectionContext(dc);
+            
+            TITULO tit = (TITULO) cbxLibro.getSelectedItem();
+            tit.setConnectionContext(dc);
+            
+            venta.setRefTitle(tit.getref());
+            venta.setQty(new BigDecimal(txtQty.getText()));
+            
+            venta.guardar();
+            loadSale(venta);
+            txtQty.setText("");
+            cbxLibro.setSelectedIndex(0);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+            Logger.getLogger(Sales.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnEditarTituloActionPerformed
+
+    private void cbxTiendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTiendaActionPerformed
+        if (cbxTienda.getSelectedItem() instanceof TIENDA) {
+            try {
+                TIENDA t = (TIENDA) cbxTienda.getSelectedItem();
+                lblTienda.setText(t.getStorName() + "");
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+                Logger.getLogger(Sales.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            lblTienda.setText("");
+        }
+    }//GEN-LAST:event_cbxTiendaActionPerformed
+
+    private void cbxLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxLibroActionPerformed
+        if (cbxLibro.getSelectedItem() instanceof TITULO) {
+            try {
+                TITULO t = (TITULO) cbxLibro.getSelectedItem();
+                lblTit.setText(t.getTitleName() + "");
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+                Logger.getLogger(Sales.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            lblTit.setText("");
+        }
+    }//GEN-LAST:event_cbxLibroActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        try {
+            OracleConnection conn = Conexion.GetConnection();
+            Statement st = conn.createStatement();
+            Map map = conn.getTypeMap();
+            map.put(VENTA._SQL_NAME, VENTA.class);
+            DefaultContext dc = new DefaultContext(conn);
+            
+            VENTA venta = (VENTA) jTOrdenes.getValueAt(jTOrdenes.getSelectedRow(), 0);
+            venta.setConnectionContext(dc);
+            
+            venta.borrar();
+            loadSale(venta);
+            txtQty.setText("");
+            cbxLibro.setSelectedIndex(0);
+            if (jTOrdenes.getRowCount() == 0 ){
+                if (JOptionPane.showOptionDialog(this, 
+                        "Ya no existen titulos en la venta, ¿deseas hacer una nueva o continuar?","Hola",
+                        JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Nueva","Continuar"},null)==0){
+                    clearFields();
+                    habilitarOrden(true);
+                }
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+            Logger.getLogger(Sales.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        viendoVentas = true;
+        loadAllSales();
+        clearFields();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void verOrdenPorTiendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verOrdenPorTiendaActionPerformed
+        viendoVentas = true;
+        String storId = JOptionPane.showInputDialog("Ingresa el id de la tienda");
+        loadAllSalesPerStore(storId);
+        clearFields();
+    }//GEN-LAST:event_verOrdenPorTiendaActionPerformed
+
+    private void miNuevaOrdenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miNuevaOrdenActionPerformed
+        clearFields();
+
+        DefaultTableModel tm = new DefaultTableModel(null, new String[]{}) {
+            @Override
+            public boolean isCellEditable(int rowIndex, int colIndex) {
+                return false;
+            }
+        };
+        jTOrdenes.setModel(tm);
+        habilitarOrden(true);
+        habilitarVentas(true);
+    }//GEN-LAST:event_miNuevaOrdenActionPerformed
+
+    private void btnAgregarTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarTituloActionPerformed
+        try {
+            OracleConnection conn = Conexion.GetConnection();
+            Statement st = conn.createStatement();
+            Map map = conn.getTypeMap();
+            map.put(VENTA._SQL_NAME, VENTA.class);
+            DefaultContext dc = new DefaultContext(conn);
+
+            VENTA venta = new VENTA();
+            venta.setConnectionContext(dc);
+
+            venta.setOrdNum(txtOrden.getText());
+            venta.setOrdDate(new Timestamp(jXDatePicker1.getDate().getTime()));
+            venta.setPayterms(txtPago.getText());
+            venta.setQty(new BigDecimal(txtQty.getText()));
+
+            TITULO tit = (TITULO) cbxLibro.getSelectedItem();
+            tit.setConnectionContext(dc);
+            TIENDA tie = (TIENDA) cbxTienda.getSelectedItem();
+            tie.setConnectionContext(dc);
+
+            venta.setRefStore(tie.getref());
+            venta.setRefTitle(tit.getref());
+
+            venta.guardar();
+            loadSale(venta);
+            
+            txtQty.setText("");
+            cbxLibro.setSelectedIndex(0);
+            habilitarOrden(false);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+            Logger.getLogger(Sales.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_btnAgregarTituloActionPerformed
+
+    private void menuEditorialesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEditorialesActionPerformed
+        new Publishers().setVisible(true);
+    }//GEN-LAST:event_menuEditorialesActionPerformed
+
+    private void menuPuestosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPuestosActionPerformed
+        new Jobs().setVisible(true);
+    }//GEN-LAST:event_menuPuestosActionPerformed
+
+    private void menuEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEmpleadosActionPerformed
+        new Employee().setVisible(true);
+    }//GEN-LAST:event_menuEmpleadosActionPerformed
+
+    private void menuAutoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAutoresActionPerformed
+        new Authors().setVisible(true);
+    }//GEN-LAST:event_menuAutoresActionPerformed
+
+    private void menuTitulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuTitulosActionPerformed
+        new Titles().setVisible(true);
+    }//GEN-LAST:event_menuTitulosActionPerformed
+
+    private void menuTitsAutsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuTitsAutsActionPerformed
+        new TitleAuthor().setVisible(true);
+    }//GEN-LAST:event_menuTitsAutsActionPerformed
+
+    private void menuTiendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuTiendasActionPerformed
+        new Stores().setVisible(true);
+    }//GEN-LAST:event_menuTiendasActionPerformed
+
+    private void menuDescuentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuDescuentosActionPerformed
+        new Discounts().setVisible(true);
+    }//GEN-LAST:event_menuDescuentosActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    
-    public void fillFields(){
-        VENTA x = (VENTA) jTable1.getValueAt(jTable1.getSelectedRow(), 1);
-        TIENDA ti = (TIENDA) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
-        TITULO tit = (TITULO)jTable1.getValueAt(jTable1.getSelectedRow(), 5);
+    public void fillFields() {
+        VENTA x = (VENTA) jTOrdenes.getValueAt(jTOrdenes.getSelectedRow(), 1);
+        TIENDA ti = (TIENDA) jTOrdenes.getValueAt(jTOrdenes.getSelectedRow(), 0);
+        TITULO tit = (TITULO) jTOrdenes.getValueAt(jTOrdenes.getSelectedRow(), 5);
 
         try {
-            this.jTxtFldIdTienda.setText((ti != null) ? ti + "" : "");
-            this.jTxtfldNumOrden.setText(((x.getOrdNum()) != null) ? x.getOrdNum() + "" : "");
+            //this.jTxtFldIdTienda.setText((ti != null) ? ti + "" : "");
+            this.txtOrden.setText(((x.getOrdNum()) != null) ? x.getOrdNum() + "" : "");
             this.jXDatePicker1.setDate(x.getOrdDate());
-            this.jTxtFldCantidad.setText(((x.getQty()) != null) ? x.getQty() + "" : "");
-            this.jTxtFldTerminos.setText(((x.getPayterms()) != null) ? x.getPayterms() + "" : "");
-            this.jTxtFldIdTitulo.setText((tit != null) ? tit + "" : "");
+            this.txtQty.setText(((x.getQty()) != null) ? x.getQty() + "" : "");
+            this.txtPago.setText(((x.getPayterms()) != null) ? x.getPayterms() + "" : "");
+//            this.jTxtFldIdTitulo.setText((tit != null) ? tit + "" : "");
         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
             Logger.getLogger(Discounts.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void loadSales() {
+
+    public void loadAllSales() {
         try {
             OracleConnection conn = (OracleConnection) Conexion.GetConnection();
             Statement st = conn.createStatement();
@@ -282,7 +686,7 @@ public class Sales extends javax.swing.JFrame {
                 }
             };
 
-            ResultSet rs = st.executeQuery("SELECT value(a) FROM ventas a");
+            ResultSet rs = st.executeQuery("SELECT value(a) FROM ventas a WHERE a.ord_num IN (SELECT distinct ord_num FROM ventas)");
             while (rs.next()) {
                 VENTA p = (VENTA) rs.getObject(1);
 
@@ -311,10 +715,138 @@ public class Sales extends javax.swing.JFrame {
 
                 tm.addRow(row);
             }
-            jTable1.setModel(tm);
+            jTOrdenes.setModel(tm);
         } catch (SQLException e) {
             Logger.getLogger(this.getName()).log(Level.SEVERE, null, e.getMessage());
             JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+
+    public void loadAllSalesPerStore(String storId) {
+        try {
+            OracleConnection conn = (OracleConnection) Conexion.GetConnection();
+            Statement st = conn.createStatement();
+            Map map = (Map) conn.getTypeMap();
+            map.put(VENTA._SQL_NAME, VENTA.class);
+            map.put(TIENDA._SQL_NAME, TIENDA.class);
+
+            String[] columns = {
+                "Id Tienda", "Numero de Orden", "Fecha de Orden", "Cantidad", "Terminos de Pago", "ID Titulo"
+            };
+
+            DefaultTableModel tm = new DefaultTableModel(null, columns) {
+                @Override
+                public boolean isCellEditable(int rowIndex, int colIndex) {
+                    return false;
+                }
+            };
+
+            TIENDA tienda = new TIENDA();
+            tienda.setConnectionContext(new DefaultContext(conn));
+            tienda = tienda.buscar(storId);
+
+            VENTA venta = new VENTA();
+            venta.setConnectionContext(new DefaultContext(conn));
+
+            ResultSet rs = st.executeQuery("SELECT value(v) FROM ventas v WHERE v.ref_store.stor_id = " + storId);
+
+            while (rs.next()) {
+                VENTA p = (VENTA) rs.getObject(1);
+
+                TIENDA t = null;
+                try {
+                    t = p.getRefStore().getValue();
+                } catch (SQLException e) {
+                    t = null;
+                }
+
+                TITULO x = null;
+                try {
+                    x = p.getRefTitle().getValue();
+                } catch (SQLException e) {
+                    x = null;
+                }
+
+                Date dateMeSenpai = new Date();
+                dateMeSenpai.setTime(p.getOrdDate().getTime());
+                SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+                String date = DATE_FORMAT.format(dateMeSenpai);
+
+                Object[] row = {
+                    t, p, date, p.getQty(), p.getPayterms(), x
+                };
+
+                tm.addRow(row);
+            }
+            jTOrdenes.setModel(tm);
+        } catch (SQLException e) {
+            Logger.getLogger(this.getName()).log(Level.SEVERE, null, e.getMessage());
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+
+    private void loadSale(VENTA v) {
+        try {
+            OracleConnection conn = (OracleConnection) Conexion.GetConnection();
+            Statement st = conn.createStatement();
+            Map map = (Map) conn.getTypeMap();
+            map.put(VENTA._SQL_NAME, VENTA.class);
+            String[] columns = {
+                "Venta", "Título ID", "Nombre", "Cantidad"
+            };
+            DefaultTableModel tm = new DefaultTableModel(null, columns) {
+                @Override
+                public boolean isCellEditable(int rowIndex, int colIndex) {
+                    return false;
+                }
+            };
+
+            ResultSet rs = st.executeQuery("SELECT value(v) FROM ventas v WHERE v.ord_num = '" + v.getOrdNum() + "'");
+            while (rs.next()) {
+                VENTA venta = (VENTA) rs.getObject(1);
+                Object[] row = {
+                    venta,
+                    venta.getRefTitle().getValue(),
+                    venta.getRefTitle().getValue().getTitleName(),
+                    venta.getQty()
+                };
+
+                tm.addRow(row);
+            }
+            jTOrdenes.setModel(tm);
+
+            for (int i = 0; i < cbxTienda.getItemCount(); i++) {
+                if (cbxTienda.getItemAt(i) instanceof TIENDA
+                        && v.getRefStore().getValue().getStorId().equals(((TIENDA) cbxTienda.getItemAt(i)).getStorId())) {
+                    System.out.println("ey");
+                    cbxTienda.setSelectedIndex(i);
+                    break;
+                }
+            }
+            txtOrden.setText(v.getOrdNum());
+            jXDatePicker1.setDate(v.getOrdDate());
+            txtPago.setText(v.getPayterms());
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+            Logger.getLogger(Sales.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void loadTitleSale() {
+        try {
+            VENTA venta = (VENTA) jTOrdenes.getValueAt(jTOrdenes.getSelectedRow(), 0);
+            TITULO tit = (TITULO) jTOrdenes.getValueAt(jTOrdenes.getSelectedRow(), 1);
+            for (int i = 0; i < cbxLibro.getItemCount(); i++) {
+                if (cbxLibro.getItemAt(i) instanceof TITULO
+                        && tit.getTitleId().equals(((TITULO) cbxLibro.getItemAt(i)).getTitleId())) {
+                    cbxLibro.setSelectedIndex(i);
+                    break;
+                }
+            }
+            txtQty.setText(venta.getQty() + "");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+            Logger.getLogger(Sales.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -350,25 +882,107 @@ public class Sales extends javax.swing.JFrame {
         });
     }
 
+    public void fillComboTienda() {
+        try {
+            OracleConnection conn = (OracleConnection) Conexion.GetConnection();
+            Statement st = conn.createStatement();
+            Map map = (Map) conn.getTypeMap();
+            map.put(TIENDA._SQL_NAME, TIENDA.class);
+
+            ResultSet rs = st.executeQuery("SELECT value(a) FROM tiendas a ORDER BY a.STOR_ID");
+
+            cbxTienda.addItem("Seleccione Tianguis");
+            while (rs.next()) {
+                TIENDA p = (TIENDA) rs.getObject(1);
+
+                cbxTienda.addItem(p);
+            }
+            conn.close();
+        } catch (SQLException e) {
+        }
+    }
+
+    public void fillComboTitulos() {
+        try {
+            OracleConnection conn = (OracleConnection) Conexion.GetConnection();
+            Statement st = conn.createStatement();
+            Map map = (Map) conn.getTypeMap();
+            map.put(TITULO._SQL_NAME, TITULO.class);
+
+            ResultSet rs = st.executeQuery("SELECT value(a) FROM titulos a ORDER BY a.title_id");
+
+            cbxLibro.addItem("Seleccione titulo");
+            while (rs.next()) {
+                TITULO p = (TITULO) rs.getObject(1);
+                System.out.println(p.getTitleId());
+
+                cbxLibro.addItem(p);
+            }
+            conn.close();
+        } catch (SQLException e) {
+        }
+    }
+
+    private void habilitarOrden(boolean habilitado){
+        cbxTienda.setEnabled(habilitado);
+        jXDatePicker1.setEnabled(habilitado);
+        txtOrden.setEnabled(habilitado);
+        txtPago.setEnabled(habilitado);
+    }
+    
+    private void habilitarVentas(boolean habilitado){
+        cbxLibro.setEnabled(habilitado);
+        txtQty.setEnabled(habilitado);
+    }
+    
+    private void clearFields() {
+        cbxLibro.setSelectedIndex(0);
+        cbxTienda.setSelectedIndex(0);
+        txtOrden.setText("");
+        txtPago.setText("");
+        txtQty.setText("");
+        jXDatePicker1.setDate(null);
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnAgregarTitulo;
+    private javax.swing.JButton btnEditarTitulo;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JComboBox cbxLibro;
+    private javax.swing.JComboBox cbxTienda;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTxtFldCantidad;
-    private javax.swing.JTextField jTxtFldIdTienda;
-    private javax.swing.JTextField jTxtFldIdTitulo;
-    private javax.swing.JTextField jTxtFldTerminos;
-    private javax.swing.JTextField jTxtfldNumOrden;
+    private javax.swing.JTable jTOrdenes;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
+    private javax.swing.JLabel lblTienda;
+    private javax.swing.JLabel lblTit;
+    private javax.swing.JMenuItem menuAutores;
+    private javax.swing.JMenuItem menuDescuentos;
+    private javax.swing.JMenuItem menuEditoriales;
+    private javax.swing.JMenuItem menuEmpleados;
+    private javax.swing.JMenu menuNueva;
+    private javax.swing.JMenuItem menuPuestos;
+    private javax.swing.JMenuItem menuTiendas;
+    private javax.swing.JMenuItem menuTitsAuts;
+    private javax.swing.JMenuItem menuTitulos;
+    private javax.swing.JMenuItem miNuevaOrden;
+    private javax.swing.JTextField txtOrden;
+    private javax.swing.JTextField txtPago;
+    private javax.swing.JTextField txtQty;
+    private javax.swing.JMenuItem verOrden;
+    private javax.swing.JMenuItem verOrdenPorTienda;
     // End of variables declaration//GEN-END:variables
+
 }
