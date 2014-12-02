@@ -78,8 +78,7 @@ public class Titles extends javax.swing.JFrame {
         jTxtFldNombre = new javax.swing.JTextField();
         jTxtFldTipo = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("( ͡° ͜ʖ ͡°) - Titulos");
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

@@ -18,8 +18,8 @@ import oracle.jdbc.driver.OracleConnection;
  */
 public class Conexion {
     private static String usuarioDB="pubs";
-    private static String passwordDB="123";
-    private static String serv="h440";
+    private static String passwordDB="pubs";
+    private static String serv="orcl";
     public static String getUsuarioDB() {
         return usuarioDB;
     }
@@ -79,5 +79,9 @@ public class Conexion {
 
     public static void setServ(String serv) {
         Conexion.serv = serv;
+    }
+    
+    public static void main(String[] args) {
+        new Sales().setVisible(true);
     }
 }
